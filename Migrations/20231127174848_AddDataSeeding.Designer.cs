@@ -4,6 +4,7 @@ using Kanban_RMR.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KanbanRMR.Migrations
 {
     [DbContext(typeof(KanbanDbContext))]
-    partial class KanbanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231127174848_AddDataSeeding")]
+    partial class AddDataSeeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,7 +62,7 @@ namespace KanbanRMR.Migrations
                         {
                             Id = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2023, 11, 27, 18, 57, 42, 992, DateTimeKind.Local).AddTicks(8933),
+                            CreatedOn = new DateTime(2023, 11, 27, 18, 48, 48, 35, DateTimeKind.Local).AddTicks(2168),
                             Description = "Ticket Description 1",
                             Priority = 1,
                             Status = 1,
@@ -69,7 +72,7 @@ namespace KanbanRMR.Migrations
                         {
                             Id = 2,
                             CreatedBy = 2,
-                            CreatedOn = new DateTime(2023, 11, 27, 18, 57, 42, 992, DateTimeKind.Local).AddTicks(8991),
+                            CreatedOn = new DateTime(2023, 11, 27, 18, 48, 48, 35, DateTimeKind.Local).AddTicks(2235),
                             Description = "Ticket Description 1",
                             Priority = 2,
                             Status = 1,

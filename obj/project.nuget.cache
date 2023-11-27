@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "M244hazMpoUXeNFX1l2TXw2F+OJtPupvA1kWuEnPrL/ljtiy41MCR51oxByD/KUtjy9+mqj7z6TbXWs61BEDwg==",
+  "dgSpecHash": "fVwzsmDALFBuzX1M9P8gLDux9kWskrffreCnd0nHjVvsIusdJf1MFvB/XGi2oBFAu4aHfF136x58Q11I1xq/6Q==",
   "success": true,
-  "projectFilePath": "c:\\Users\\Gebruiker\\Downloads\\School\\KanBan\\Kanban-RMR\\Kanban-RMR.csproj",
+  "projectFilePath": "C:\\Users\\Gebruiker\\Downloads\\School\\KanBan\\Kanban-RMR\\Kanban-RMR.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Gebruiker\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Gebruiker\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

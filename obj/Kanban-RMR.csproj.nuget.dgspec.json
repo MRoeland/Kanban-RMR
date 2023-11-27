@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\Gebruiker\\Downloads\\School\\KanBan\\Kanban-RMR\\Kanban-RMR.csproj": {}
+    "C:\\Users\\Gebruiker\\Downloads\\School\\KanBan\\Kanban-RMR\\Kanban-RMR.csproj": {}
   },
   "projects": {
-    "c:\\Users\\Gebruiker\\Downloads\\School\\KanBan\\Kanban-RMR\\Kanban-RMR.csproj": {
+    "C:\\Users\\Gebruiker\\Downloads\\School\\KanBan\\Kanban-RMR\\Kanban-RMR.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\Gebruiker\\Downloads\\School\\KanBan\\Kanban-RMR\\Kanban-RMR.csproj",
+        "projectUniqueName": "C:\\Users\\Gebruiker\\Downloads\\School\\KanBan\\Kanban-RMR\\Kanban-RMR.csproj",
         "projectName": "Kanban-RMR",
-        "projectPath": "c:\\Users\\Gebruiker\\Downloads\\School\\KanBan\\Kanban-RMR\\Kanban-RMR.csproj",
+        "projectPath": "C:\\Users\\Gebruiker\\Downloads\\School\\KanBan\\Kanban-RMR\\Kanban-RMR.csproj",
         "packagesPath": "C:\\Users\\Gebruiker\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\Gebruiker\\Downloads\\School\\KanBan\\Kanban-RMR\\obj\\",
+        "outputPath": "C:\\Users\\Gebruiker\\Downloads\\School\\KanBan\\Kanban-RMR\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Gebruiker\\AppData\\Roaming\\NuGet\\NuGet.Config",
