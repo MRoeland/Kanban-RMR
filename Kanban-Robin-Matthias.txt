@@ -1,0 +1,55 @@
+We hebben de links met documentatie en papers bekeken en hebben hierin wat inspiratie gevonden.
+Voor onze Kanban oplossing willen we een score-systeem toepassen.
+
+Voor de implementatie zelf gaan we gebruik maken van C# met GitHub-CoPilot.
+
+Er worden tickets aangemaakt door de klant.
+Deze tickets kunnen een bug-report, een feature of een improvement zijn.
+Bij het aanmaken van een ticket kan de klant een punt scoren.
+Na analyze van een ticket door ons, wordt er gekeken of het om een dubbel gaat of niet. Bij dubbel krijgt de klant geen punt.
+Als het gaat om een feature dat niet haalbaar is, dan krijgt de klant ook geen punt.
+Als het gaat om een bug-report die uiteindelijk een data-probleem of een fout in hun configuratie is, krijgt de klant ook geen punt.
+Wel kan dit soort ticket omgevormd worden naar een "improvement" zodat onze software op termijn robuuster wordt.
+Als de klant voldoende punten gescoord heeft, maakt hij kans op korting in de vorm van 1 dag "gratis" support (werken aan een feature of bugfix).
+
+Punten scoren (extra motivatie) aan onze kant: wie een ticket binnen de geschatte tijd kan afwerken, krijgt een punt. Wie het ticket vroeger klaar krijgt, kan een bonuspunt verdienen.
+Optioneel kan er jaarlijks een restaurant-bon gewonnen worden voor de top-3 van onze werknemers.
+
+Een ticket heeft onder andere volgende kenmerken:
+- type (bug-report, feature, improvement)
+- titel
+- omschrijving
+- prioriteit (minor, major, critical, blocking)
+- effort-schatting
+- mogelijke startdatum
+- project (klant-projectcode, intern, ...)
+- status (todo, analysis, in progress, in review, done)
+- comments (lijst waar zowel de klant als wij extra info kunnen aan toevoegen)
+
+De klant kan enkel tickets aanmaken en later comments toevoegen. Verder ziet de klant ook in welk stadium hun tickets zich bevinden zodat ze vooruitgang kunnen zien.
+Er is een filter voorzien zodat elke klant enkel zijn eigen tickets kan zien op basis van zijn login.
+Voor tickets die nog in de todo-kolom zitten, kan de klant het ticket nog wijzigen (betere titel, omschrijving aanpassen, prioriteit wijzigen, ...) en de volgorde van urgentie aanpassen via drag&drop (hoger in de lijst -> eerder in behandeling nemen).
+Ook kunnen de tickets in de todo-kolom nog verwijderd worden als de klant merkt dat het om een data-fout of configuratie-fout van hun kant ging.
+
+De tickets kunnen afhankelijk van de prioriteit een andere kleur krijgen. Blocking (rood), critical (oranje), major (geel), minor (groen).
+
+Tickets worden bijgehouden in een database.
+Tabellen:
+- types (bug-report, feature, improvement, ... -> tonen in een dropdown)
+- priorities (minor, major, critical, blocking, ... -> tonen in een dropdown)
+- customers (klantinfo + hun login)
+- projects (project-info: een klant kan meerdere projecten hebben. Deze tabel kan ook interne projecten bevatten)
+- tickets
+- options (bevat een aantal interne configuratie-parameters zoals "max-periode-toon-done-tickets" waarmee je filters kan instellen, kleur per prioriteit bepalen, ... -> voorkomen dat er constanten gebruikt worden)
+- employees (vooral om scores te kunnen bijhouden)
+- punten (mogelijke-actie + aantal-te-verdienen-punten -> zal voornamelijk 0 of 1 zijn)
+
+
+Intern kunnen wij een ticket door middel van drag&drop van de ene kolom (initieel "todo") slepen naar een volgende (of vorige kolom) tot het ticket uiteindelijk in de laatste kolom ("done) terechtkomt.
+
+Op de laatste kolom kan een filter actief zijn om een beperkt aantal tickets te tonen (bijvoorbeeld enkel die van de laatste 2 weken)
+Op de todo kolom kan gefilterd worden naar prioriteit om bijvoorbeeld enkel de blocking tickets te zien.
+
+We zouden ook een "like / dislike" functie willen voorzien voor een ticket of oplossing (comment?) van een ticket. Dit zou eventueel ook kunnen resulteren in extra punten.
+
+Voor de tabellen types, priorities, customers, projects, options, employees, punten worden aparte admin views met crud-functionaliteit voorzien.

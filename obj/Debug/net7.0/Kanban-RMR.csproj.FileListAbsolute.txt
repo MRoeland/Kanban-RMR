@@ -1,0 +1,99 @@
+D:\Projects\Kanban-RMR\bin\Debug\net7.0\appsettings.Development.json
+D:\Projects\Kanban-RMR\bin\Debug\net7.0\appsettings.json
+D:\Projects\Kanban-RMR\bin\Debug\net7.0\Kanban-RMR.staticwebassets.runtime.json
+D:\Projects\Kanban-RMR\bin\Debug\net7.0\Kanban-RMR.exe
+D:\Projects\Kanban-RMR\bin\Debug\net7.0\Kanban-RMR.deps.json
+D:\Projects\Kanban-RMR\bin\Debug\net7.0\Kanban-RMR.runtimeconfig.json
+D:\Projects\Kanban-RMR\bin\Debug\net7.0\Kanban-RMR.dll
+D:\Projects\Kanban-RMR\bin\Debug\net7.0\Kanban-RMR.pdb
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.csproj.AssemblyReference.cache
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.AssemblyInfoInputs.cache
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.AssemblyInfo.cs
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.csproj.CoreCompileInputs.cache
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.MvcApplicationPartsAssemblyInfo.cache
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.RazorAssemblyInfo.cache
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.RazorAssemblyInfo.cs
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\staticwebassets\msbuild.Kanban-RMR.Microsoft.AspNetCore.StaticWebAssets.props
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\staticwebassets\msbuild.build.Kanban-RMR.props
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.Kanban-RMR.props
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.Kanban-RMR.props
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\staticwebassets.pack.json
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\staticwebassets.build.json
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\staticwebassets.development.json
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\scopedcss\bundle\Kanban-RMR.styles.css
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\scopedcss\projectbundle\Kanban-RMR.bundle.scp.css
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.dll
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\refint\Kanban-RMR.dll
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.pdb
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.genruntimeconfig.cache
+D:\Projects\Kanban-RMR\obj\Debug\net7.0\ref\Kanban-RMR.dll
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\bin\Debug\net7.0\appsettings.Development.json
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\bin\Debug\net7.0\appsettings.json
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\bin\Debug\net7.0\Kanban-RMR.staticwebassets.runtime.json
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\bin\Debug\net7.0\Kanban-RMR.exe
+c:\Users\Gebruiker\Downloads\School\Kanban-RMR\bin\Debug\net7.0\Kanban-RMR.deps.json
+c:\Users\Gebruiker\Downloads\School\Kanban-RMR\bin\Debug\net7.0\Kanban-RMR.runtimeconfig.json
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\bin\Debug\net7.0\Kanban-RMR.dll
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\bin\Debug\net7.0\Kanban-RMR.pdb
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.csproj.AssemblyReference.cache
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.AssemblyInfoInputs.cache
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.AssemblyInfo.cs
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.csproj.CoreCompileInputs.cache
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.RazorAssemblyInfo.cache
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.RazorAssemblyInfo.cs
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\staticwebassets.build.json
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\staticwebassets.development.json
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\staticwebassets\msbuild.Kanban-RMR.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\staticwebassets\msbuild.build.Kanban-RMR.props
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.Kanban-RMR.props
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.Kanban-RMR.props
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\staticwebassets.pack.json
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\scopedcss\bundle\Kanban-RMR.styles.css
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\scopedcss\projectbundle\Kanban-RMR.bundle.scp.css
+c:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.csproj.CopyComplete
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.dll
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\refint\Kanban-RMR.dll
+C:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.pdb
+c:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.genruntimeconfig.cache
+c:\Users\Gebruiker\Downloads\School\Kanban-RMR\obj\Debug\net7.0\ref\Kanban-RMR.dll
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\bin\Debug\net7.0\appsettings.Development.json
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\bin\Debug\net7.0\appsettings.json
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\bin\Debug\net7.0\Kanban-RMR.staticwebassets.runtime.json
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\bin\Debug\net7.0\Kanban-RMR.exe
+c:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\bin\Debug\net7.0\Kanban-RMR.deps.json
+c:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\bin\Debug\net7.0\Kanban-RMR.runtimeconfig.json
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\bin\Debug\net7.0\Kanban-RMR.dll
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\bin\Debug\net7.0\Kanban-RMR.pdb
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.csproj.AssemblyReference.cache
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.AssemblyInfoInputs.cache
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.AssemblyInfo.cs
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.csproj.CoreCompileInputs.cache
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.RazorAssemblyInfo.cache
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.RazorAssemblyInfo.cs
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\staticwebassets\msbuild.Kanban-RMR.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\staticwebassets\msbuild.build.Kanban-RMR.props
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.Kanban-RMR.props
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.Kanban-RMR.props
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\staticwebassets.pack.json
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\staticwebassets.build.json
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\staticwebassets.development.json
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\scopedcss\bundle\Kanban-RMR.styles.css
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\scopedcss\projectbundle\Kanban-RMR.bundle.scp.css
+c:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.csproj.CopyComplete
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.dll
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\refint\Kanban-RMR.dll
+C:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.pdb
+c:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\Kanban-RMR.genruntimeconfig.cache
+c:\Users\Matthias\OneDrive - Erasmushogeschool Brussel\Documenten\EHB\2023-2024\Trends3\Kanban-RMR\obj\Debug\net7.0\ref\Kanban-RMR.dll
