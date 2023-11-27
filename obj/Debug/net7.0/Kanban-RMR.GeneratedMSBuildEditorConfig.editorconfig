@@ -9,13 +9,13 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Kanban_RMR
 build_property.RootNamespace = Kanban_RMR
-build_property.ProjectDir = C:\Users\Gebruiker\Downloads\School\KanBan\Kanban-RMR\
+build_property.ProjectDir = c:\Users\Gebruiker\Downloads\School\KanBan\Kanban-RMR\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Gebruiker\Downloads\School\KanBan\Kanban-RMR
+build_property.MSBuildProjectDirectory = c:\Users\Gebruiker\Downloads\School\KanBan\Kanban-RMR
 build_property._RazorSourceGeneratorDebug = 
 
 [C:/Users/Gebruiker/Downloads/School/KanBan/Kanban-RMR/Views/Home/Index.cshtml]
@@ -32,6 +32,22 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Gebruiker/Downloads/School/KanBan/Kanban-RMR/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Gebruiker/Downloads/School/KanBan/Kanban-RMR/Views/Tickets/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0c1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Gebruiker/Downloads/School/KanBan/Kanban-RMR/Views/Tickets/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0c1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Gebruiker/Downloads/School/KanBan/Kanban-RMR/Views/Tickets/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0c1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Gebruiker/Downloads/School/KanBan/Kanban-RMR/Views/Tickets/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0c1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Gebruiker/Downloads/School/KanBan/Kanban-RMR/Views/_ViewImports.cshtml]

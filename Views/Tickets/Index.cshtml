@@ -1,0 +1,28 @@
+@model List<Ticket>
+
+<h1>Ticket List</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ticket in Model)
+        {
+            <tr>
+                <td>@ticket.Id</td>
+                <td>@ticket.Title</td>
+                <td>@ticket.Description</td>
+                <td>@ticket.Status</td>
+                <td>@ticket.Priority</td>
+                <td>@ticket.CreatedBy</td>
+                <td>@ticket.CreatedOn</td>
+            </tr>
+        }
+    </tbody>
+</table>
