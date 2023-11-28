@@ -30,24 +30,22 @@ namespace KanbanRMR.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CreatedBy")
+                    b.Property<int?>("CreatedBy")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedOn")
+                    b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Priority")
+                    b.Property<int?>("Priority")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
+                    b.Property<int?>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -59,21 +57,21 @@ namespace KanbanRMR.Migrations
                         {
                             Id = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2023, 11, 27, 18, 57, 42, 992, DateTimeKind.Local).AddTicks(8933),
-                            Description = "Ticket Description 1",
+                            CreatedOn = new DateTime(2023, 11, 28, 8, 34, 26, 686, DateTimeKind.Local).AddTicks(7010),
+                            Description = "Ticket Description1",
                             Priority = 1,
                             Status = 1,
-                            Title = "Ticket 1"
+                            Title = "Ticket1"
                         },
                         new
                         {
                             Id = 2,
                             CreatedBy = 2,
-                            CreatedOn = new DateTime(2023, 11, 27, 18, 57, 42, 992, DateTimeKind.Local).AddTicks(8991),
-                            Description = "Ticket Description 1",
+                            CreatedOn = new DateTime(2023, 11, 28, 8, 34, 26, 686, DateTimeKind.Local).AddTicks(7078),
+                            Description = "Ticket Description2",
                             Priority = 2,
                             Status = 1,
-                            Title = "Ticket 2"
+                            Title = "Ticket2"
                         });
                 });
 #pragma warning restore 612, 618
