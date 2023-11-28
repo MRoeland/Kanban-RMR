@@ -25,6 +25,10 @@
                 <td>@ticket.Priority</td>
                 <td>@ticket.CreatedBy</td>
                 <td>@ticket.CreatedOn</td>
+                <td>
+                    @Html.ActionLink("+", "Details", new { id = ticket.Id }, new { @class = "btn btn-primary" })
+                    <!-- Other action links... -->
+                </td>
             </tr>
         }
     </tbody>
