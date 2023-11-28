@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KanbanRMR.Migrations
 {
     [DbContext(typeof(KanbanDbContext))]
-    [Migration("20231128123020_InitialDBSetup")]
+    [Migration("20231128170922_InitialDBSetup")]
     partial class InitialDBSetup
     {
         /// <inheritdoc />
@@ -143,7 +143,7 @@ namespace KanbanRMR.Migrations
                         {
                             Id = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2023, 11, 28, 13, 30, 20, 418, DateTimeKind.Local).AddTicks(6635),
+                            CreatedOn = new DateTime(2023, 11, 28, 18, 9, 22, 267, DateTimeKind.Local).AddTicks(8651),
                             Description = "Ticket Description1",
                             Priority = 1,
                             Status = 1,
@@ -153,7 +153,7 @@ namespace KanbanRMR.Migrations
                         {
                             Id = 2,
                             CreatedBy = 2,
-                            CreatedOn = new DateTime(2023, 11, 28, 13, 30, 20, 418, DateTimeKind.Local).AddTicks(6695),
+                            CreatedOn = new DateTime(2023, 11, 28, 18, 9, 22, 267, DateTimeKind.Local).AddTicks(8711),
                             Description = "Ticket Description2",
                             Priority = 2,
                             Status = 1,

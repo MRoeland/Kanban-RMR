@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Matthias\\OneDrive - Erasmushogeschool Brussel\\Documenten\\EHB\\2023-2024\\Trends3\\Kanban-RMR\\Kanban-RMR.csproj": {}
+    "C:\\Users\\Matthias\\OneDrive - Erasmushogeschool Brussel\\Documenten\\GitHub\\Kanban-RMR\\Kanban-RMR.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Matthias\\OneDrive - Erasmushogeschool Brussel\\Documenten\\EHB\\2023-2024\\Trends3\\Kanban-RMR\\Kanban-RMR.csproj": {
+    "C:\\Users\\Matthias\\OneDrive - Erasmushogeschool Brussel\\Documenten\\GitHub\\Kanban-RMR\\Kanban-RMR.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Matthias\\OneDrive - Erasmushogeschool Brussel\\Documenten\\EHB\\2023-2024\\Trends3\\Kanban-RMR\\Kanban-RMR.csproj",
+        "projectUniqueName": "C:\\Users\\Matthias\\OneDrive - Erasmushogeschool Brussel\\Documenten\\GitHub\\Kanban-RMR\\Kanban-RMR.csproj",
         "projectName": "Kanban-RMR",
-        "projectPath": "C:\\Users\\Matthias\\OneDrive - Erasmushogeschool Brussel\\Documenten\\EHB\\2023-2024\\Trends3\\Kanban-RMR\\Kanban-RMR.csproj",
+        "projectPath": "C:\\Users\\Matthias\\OneDrive - Erasmushogeschool Brussel\\Documenten\\GitHub\\Kanban-RMR\\Kanban-RMR.csproj",
         "packagesPath": "C:\\Users\\Matthias\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Matthias\\OneDrive - Erasmushogeschool Brussel\\Documenten\\EHB\\2023-2024\\Trends3\\Kanban-RMR\\obj\\",
+        "outputPath": "C:\\Users\\Matthias\\OneDrive - Erasmushogeschool Brussel\\Documenten\\GitHub\\Kanban-RMR\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Matthias\\AppData\\Roaming\\NuGet\\NuGet.Config",

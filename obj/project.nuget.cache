@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rI0q/Bi/ZHm/P9M4ScK1ZhzOd/T+0AIvGEqAt21e8PeAVkhbz98MFiy+RrVvmlBLyX7wUKuz73e4IE53p+Zmxw==",
+  "dgSpecHash": "HgvEnrACKJGiXn1ehgFeYhmL2+KdYXlH/Zv0lSDY8MtZ81H7zxfV4qexBS7zclvfcP/n6UVQXUBXwAcshTktKw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Matthias\\OneDrive - Erasmushogeschool Brussel\\Documenten\\EHB\\2023-2024\\Trends3\\Kanban-RMR\\Kanban-RMR.csproj",
+  "projectFilePath": "C:\\Users\\Matthias\\OneDrive - Erasmushogeschool Brussel\\Documenten\\GitHub\\Kanban-RMR\\Kanban-RMR.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Matthias\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Matthias\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

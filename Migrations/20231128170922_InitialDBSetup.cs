@@ -85,8 +85,8 @@ namespace KanbanRMR.Migrations
                 columns: new[] { "Id", "CreatedBy", "CreatedOn", "Description", "Priority", "Status", "Title" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2023, 11, 28, 13, 30, 20, 418, DateTimeKind.Local).AddTicks(6635), "Ticket Description1", 1, 1, "Ticket1" },
-                    { 2, 2, new DateTime(2023, 11, 28, 13, 30, 20, 418, DateTimeKind.Local).AddTicks(6695), "Ticket Description2", 2, 1, "Ticket2" }
+                    { 1, 1, new DateTime(2023, 11, 28, 18, 9, 22, 267, DateTimeKind.Local).AddTicks(8651), "Ticket Description1", 1, 1, "Ticket1" },
+                    { 2, 2, new DateTime(2023, 11, 28, 18, 9, 22, 267, DateTimeKind.Local).AddTicks(8711), "Ticket Description2", 2, 1, "Ticket2" }
                 });
         }
 
