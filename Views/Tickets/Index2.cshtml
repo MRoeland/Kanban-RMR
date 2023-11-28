@@ -1,0 +1,84 @@
+@model List<Ticket>
+
+<head>
+    <title>Ticket List</title>
+</head>
+<style>
+    #list {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+#column {
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    height: inherit;
+    width: 25%;
+    justify-content: center;
+    margin-bottom: 10%;
+}
+
+#title {
+    padding: 10%;
+    font-weight: bold;
+    border-bottom: solid black 2px;
+    text-align: center;
+}
+
+#items {
+    padding: 10%;
+}
+
+ticket {
+    border: solid rgb(141, 141, 141) 1px;
+    display: block;
+    margin-top: 5px;
+    text-align: center;
+}
+
+ticket:hover{
+    cursor: grab;
+}
+
+ticket:active {
+    cursor: grabbing;
+}
+
+</style>
+<body>
+    <h1>Ticket List</h1>
+
+    @Html.ActionLink("Add a Ticket", "Create", null, new { @class = "btn btn-primary" })
+
+    <div id="list">
+            @foreach (var status in ViewBag.Statuses)
+            {
+                <div id="column">
+                    <div id="title">
+                        @status.Text
+                    </div>
+                    <div id="items">
+                        @foreach (var tickets in ViewBag.TicketsGroupedByStatus)
+                        {
+                            foreach (var ticket in tickets.Value)
+                            {
+                                if (ticket.Status.ToString() == status.Value)
+                                {
+                                    <ticket ondblclick='window.location="Details?id=@ticket.Id"'>
+                                        <p>@ticket.Title</p>
+                                        @Html.ActionLink("Edit", "Edit", new { id = ticket.Id })
+                                        @if(ticket.Status == 1)
+                                        {
+                                            @Html.ActionLink("Remove", "Delete", new { id = ticket.Id })
+                                        }
+                                    </ticket>
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            }
+    </div>
+</body>

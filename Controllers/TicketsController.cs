@@ -1,6 +1,7 @@
 using Kanban_RMR.Data;
 using Kanban_RMR.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 public class TicketsController : Controller
@@ -17,6 +18,26 @@ public class TicketsController : Controller
     {
         return View(await _context.Tickets.ToListAsync());
     }
+
+    // GET: Tickets2
+    public async Task<IActionResult> Index2()
+    {
+        // Fetch the data from the "Tickets" table and group it by "Status"
+        var ticketsGroupedByStatus = _context.Tickets
+            .GroupBy(t => t.Status)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
+        // Fetch the data from the "Statuses" table
+        var statuses = _context.Statuses.ToList();
+        // Pass the data to the view
+        ViewBag.Statuses = new SelectList(statuses, "Id", "Description");
+        ViewBag.StatusCnt = statuses.Count;
+
+        // Pass the grouped data to the view
+        ViewBag.TicketsGroupedByStatus = ticketsGroupedByStatus;
+
+        return View();
+        }
 
     // GET: Tickets/Details/5
     public async Task<IActionResult> Details(int? id)
@@ -45,7 +66,7 @@ public class TicketsController : Controller
     // POST: Tickets/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Title")] Ticket ticket)
+    public async Task<IActionResult> Create([Bind("Id,Title,Description,Status,Priority,CreatedBy,CreatedOn")] Ticket ticket)
     {
         if (ModelState.IsValid)
         {
@@ -69,13 +90,24 @@ public class TicketsController : Controller
         {
             return NotFound();
         }
+
+        // Fetch the data from the "Statuses" table
+        var statuses = _context.Statuses.ToList();
+        // Pass the data to the view
+        ViewBag.Statuses = new SelectList(statuses, "Id", "Description");
+
+        // Fetch the data from the "Priorities" table
+        var priorities = _context.Priorities.ToList();
+        // Pass the data to the view
+        ViewBag.Priorities = new SelectList(priorities, "Id", "Description");
+
         return View(ticket);
     }
 
     // POST: Tickets/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Title")] Ticket ticket)
+    public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Status,Priority,CreatedBy,CreatedOn")] Ticket ticket)
     {
         if (id != ticket.Id)
         {

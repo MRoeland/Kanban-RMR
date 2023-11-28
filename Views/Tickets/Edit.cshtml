@@ -17,21 +17,13 @@
     
     <div class="form-group">
         <label asp-for="Priority" class="control-label"></label>
-        <select asp-for="Priority" class="form-control">
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
-        </select>
+        <select asp-for="Priority" asp-items="ViewBag.Priorities" class="form-control"></select>
         <span asp-validation-for="Priority" class="text-danger"></span>
     </div>
     
     <div class="form-group">
         <label asp-for="Status" class="control-label"></label>
-        <select asp-for="Status" class="form-control">
-            <option value="Open">Open</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Closed">Closed</option>
-        </select>
+        <select asp-for="Status" asp-items="ViewBag.Statuses" class="form-control"></select>
         <span asp-validation-for="Status" class="text-danger"></span>
     </div>
 

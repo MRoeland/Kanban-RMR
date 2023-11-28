@@ -31,6 +31,10 @@
                     @Html.ActionLink("+", "Details", new { id = ticket.Id }, new { @class = "btn btn-primary" })
                     <!-- Other action links... -->
                 </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = ticket.Id }, new { @class = "btn btn-primary" })
+                    <!-- Other action links... -->
+                </td>
             </tr>
         }
     </tbody>
