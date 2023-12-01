@@ -1,8 +1,12 @@
 using Kanban_RMR.Data;
 using Kanban_RMR.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Sockets;
+using System.Security.Claims;
 
 public class TicketsController : Controller
 {
@@ -57,16 +61,38 @@ public class TicketsController : Controller
         return View(ticket);
     }
 
+    [Authorize(Roles = "admin,user")]
     // GET: Tickets/Create
     public IActionResult Create()
     {
+        // Fetch the data from the "TicketTypes" table
+        var types = _context.TicketTypes.ToList();
+        // Pass the data to the view
+        ViewBag.Types = new SelectList(types, "Id", "Description");
+
+        // Fetch the data from the "Statuses" table
+        var statuses = _context.Statuses.ToList();
+        // Pass the data to the view
+        ViewBag.Statuses = new SelectList(statuses, "Id", "Description");
+
+        // Fetch the data from the "Priorities" table
+        var priorities = _context.Priorities.ToList();
+        // Pass the data to the view
+        ViewBag.Priorities = new SelectList(priorities, "Id", "Description");
+
+        var userid = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+        KanbanUser user = _context.Users.Where(a => a.Id == userid).Single();
+        ViewBag.CreatedBy = userid;
+        ViewBag.Customer = user.Customer;
+        ViewBag.CreatedOn = DateTime.Now;
+
         return View();
     }
 
     // POST: Tickets/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Title,Description,Status,Priority,CreatedBy,CreatedOn")] Ticket ticket)
+    public async Task<IActionResult> Create([Bind("Id,Title,Description,Type,Project,Status,Priority,Customer,CreatedBy,CreatedOn")] Ticket ticket)
     {
         if (ModelState.IsValid)
         {
@@ -77,6 +103,7 @@ public class TicketsController : Controller
         return View(ticket);
     }
 
+    [Authorize(Roles = "admin,user")]
     // GET: Tickets/Edit/5
     public async Task<IActionResult> Edit(int? id)
     {
@@ -90,6 +117,18 @@ public class TicketsController : Controller
         {
             return NotFound();
         }
+
+        // Fetch the Customer name from the "Customers" table
+        Customer customer = _context.Customers.Where(a => a.Id == ticket.Customer).Single();//_context.Customers.FindAsync(ticket.Customer);
+        ViewBag.CustomerName = customer?.Name;
+
+        KanbanUser user = _context.Users.Where(a => a.Id == ticket.CreatedBy).Single();//_context.Users.FindAsync(ticket.CreatedBy);
+        ViewBag.CreatedBy = user?.Name;
+
+        // Fetch the data from the "TicketTypes" table
+        var types = _context.TicketTypes.ToList();
+        // Pass the data to the view
+        ViewBag.Types = new SelectList(types, "Id", "Description");
 
         // Fetch the data from the "Statuses" table
         var statuses = _context.Statuses.ToList();
@@ -107,7 +146,7 @@ public class TicketsController : Controller
     // POST: Tickets/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Status,Priority,CreatedBy,CreatedOn")] Ticket ticket)
+    public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Type,Project,Status,Priority,Customer,CreatedBy,CreatedOn")] Ticket ticket)
     {
         if (id != ticket.Id)
         {
@@ -137,6 +176,7 @@ public class TicketsController : Controller
         return View(ticket);
     }
 
+    [Authorize(Roles = "admin")]
     // GET: Tickets/Delete/5
     public async Task<IActionResult> Delete(int? id)
     {

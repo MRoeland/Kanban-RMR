@@ -9,23 +9,33 @@
     </div>
     <div class="form-group">
         <label asp-for="Description" class="control-label"></label>
-        <input asp-for="Description" class="form-control" />
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="Project" class="control-label"></label>
+        <input asp-for="Project" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Type" class="control-label"></label>
+        <select asp-for="Type" asp-items="ViewBag.Types" class="form-control"></select>
     </div>
     <div class="form-group">
         <label asp-for="Status" class="control-label"></label>
-        <input asp-for="Status" class="form-control" />
+        <select asp-for="Status" asp-items="ViewBag.Statuses" class="form-control"></select>
     </div>
     <div class="form-group">
         <label asp-for="Priority" class="control-label"></label>
-        <input asp-for="Priority" class="form-control" />
+        <select asp-for="Priority" asp-items="ViewBag.Priorities" class="form-control"></select>
+    </div>
+
+    <div class="form-group">
+        <input asp-for="Customer" class="form-control" readonly="readonly" value=@ViewBag.Customer type="hidden" />
     </div>
     <div class="form-group">
-        <label asp-for="CreatedBy" class="control-label"></label>
-        <input asp-for="CreatedBy" class="form-control" />
+        <input asp-for="CreatedBy" class="form-control" readonly="readonly" value=@ViewBag.CreatedBy type="hidden" />
     </div>
     <div class="form-group">
-        <label asp-for="CreatedOn" class="control-label"></label>
-        <input asp-for="CreatedOn" class="form-control" />
+        <input asp-for="CreatedOn" class="form-control" readonly="readonly" value=@ViewBag.CreatedOn type="hidden" />
     </div>
     <div class="form-group">
         <input type="submit" value="Create" class="btn btn-primary" />
