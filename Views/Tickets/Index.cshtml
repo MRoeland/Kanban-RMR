@@ -1,10 +1,20 @@
 @model List<Ticket>
+<style>
+    input {
+        all: unset;
+        width: 100%;
+        padding: 3px 10px 5px 10px;
+        border-radius: 15px;
+        box-sizing: border-box;
+        border: 1px solid gray;
+    }
+</style>
 
 <h1>Ticket List</h1>
 
 @Html.ActionLink("Add a Ticket", "Create", null, new { @class = "btn btn-primary" })
-
-<table>
+<input id="q" name="q" type="search" placeholder="Search on customer" onkeyup="updatetable()" />
+<table id="qtable">
     <thead>
         <tr>
             <th>Id</th>
@@ -45,3 +55,26 @@
         }
     </tbody>
 </table>
+<script>
+    function updatetable() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("q");
+        filter = input.value;
+        table = document.getElementById("qtable");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            tr[i].style.display = "";
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.innerText.split(' ')[7];
+                if (txtValue.indexOf(filter) > -1 && txtValue.startsWith(filter)) {
+                    tr[i].style.display = "";
+                } else {
+                    console.log(txtValue.indexOf(filter) + " ; " + txtValue + " ; " + filter + " ; " + txtValue.startsWith(filter))
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
