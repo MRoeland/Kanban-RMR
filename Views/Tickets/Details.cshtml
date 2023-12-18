@@ -5,11 +5,11 @@
 <div>
     <h3>@Model.Title</h3>
     <p>Description: @Model.Description</p>
-    <p>Type: @Model.Type</p>
-    <p>Project: @Model.Project</p>
-    <p>Status: @Model.Status</p>
-    <p>Priority: @Model.Priority</p>
-    <p>Customer: @Model.Customer</p>
-    <p>Created By: @Model.CreatedBy</p>
+    <p>Type: @Model.Type.Description</p>
+    <p>Project: @Model.Project.Name</p>
+    <p>Status: @Model.Status.Description</p>
+    <p>Priority: @Model.Priority.Description</p>
+    <p>Customer: @Model.Customer.Name</p>
+    <p>Created By: @Model.KanbanUser.Name</p>
     <p>Created On: @Model.CreatedOn</p>
 </div>

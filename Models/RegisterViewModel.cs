@@ -5,7 +5,7 @@ namespace Kanban_RMR.Models
     public class RegisterViewModel
     {
         [Required]
-        [EmailAddress]
+        //[EmailAddress]
         public string Email { get; set; }
         [Required]
         [DataType(DataType.Password)]
