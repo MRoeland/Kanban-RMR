@@ -1,47 +1,112 @@
 @model List<Ticket>
+<style>
+    main.pb-3{
+        border: 1px solid #dee2e6;
+        border-radius: 15px;
+        padding: 5px;
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: column;
+        gap: 5px;
+        margin-bottom: 16%;
+    }
+    input {
+        all: unset;
+        width: 100%;
+        padding: 3px 10px 5px 10px;
+        border-radius: 15px;
+        box-sizing: border-box;
+        border: 1px solid gray;
+    }
+
+    table.table{
+        width:100%;
+        margin-bottom: unset;
+    }
+    main > div{
+        border: 1px solid gray;
+        border-radius: 15px;
+    }
+
+    .table > :not(caption) > * > * {
+        border-bottom: unset;
+    }
+
+    tbody tr{
+        border-bottom: 1px solid #dee2e6;
+    }
+    tbody tr:last-of-type {
+        border-bottom: unset;
+    }
+    tbody td:not(:first-of-type), thead th:not(:first-of-type) {
+        padding-left: 3%;
+        width: 140px;
+    }
+</style>
 
 <h1>Ticket List</h1>
 
 @Html.ActionLink("Add a Ticket", "Create", null, new { @class = "btn btn-primary" })
-
-<table>
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Type</th>
-            <th>Project</th>
-            <th>Status</th>
-            <th>Priority</th>
-            <th>Customer</th>
-            <th>CreatedBy</th>
-            <th>CreatedOn</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var ticket in Model)
-        {
+<input id="q" type="search" placeholder="Search on customer" onkeyup="updatetable()" />
+<div>
+    <table id="qtable">
+        <thead>
             <tr>
-                <td>@ticket.Id</td>
-                <td>@ticket.Title</td>
-                <td>@ticket.Description</td>
-                <td>@ticket.Type</td>
-                <td>@ticket.Project</td>
-                <td>@ticket.Status</td>
-                <td>@ticket.Priority</td>
-                <td>@ticket.Customer</td>
-                <td>@ticket.CreatedBy</td>
-                <td>@ticket.CreatedOn</td>
-                <td>
-                    @Html.ActionLink("+", "Details", new { id = ticket.Id }, new { @class = "btn btn-primary" })
-                    <!-- Other action links... -->
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = ticket.Id }, new { @class = "btn btn-primary" })
-                    <!-- Other action links... -->
-                </td>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Project</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Customer</th>
+                <th>CreatedBy</th>
+                <th>CreatedOn</th>
             </tr>
+        </thead>
+        <tbody>
+            @foreach (var ticket in Model)
+            {
+                <tr>
+                    <td>@ticket.Title</td>
+                    <td>@ticket.Description</td>
+                    <td>@ticket.Type.Description</td>
+                    <td>@ticket.Project.Name</td>
+                    <td>@ticket.Status.Description</td>
+                    <td>@ticket.Priority.Description</td>
+                    <td>@ticket.Customer.Name</td>
+                    <td>@ticket.KanbanUser.Name</td>
+                    <td>@ticket.CreatedOn</td>
+                    <td>
+                        @Html.ActionLink("+", "Details", new { id = ticket.Id }, new { @class = "btn btn-primary" })
+                        <!-- Other action links... -->
+                        @Html.ActionLink("Edit", "Edit", new { id = ticket.Id }, new { @class = "btn btn-primary" })
+                        <!-- Other action links... -->
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    function updatetable() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("q");
+        filter = input.value.toLowerCase();
+        table = document.getElementById("qtable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            console.log(tr[i]);
+            tr[i].style.display = "";
+            td = tr[i].getElementsByTagName("td")[6];
+            if (td) {
+                txtValue = td.innerText.split(' ')[0].toLowerCase();
+                if (txtValue.indexOf(filter) > -1 && txtValue.startsWith(filter)) {
+                    tr[i].style.display = "";
+                } else {
+                    console.log(txtValue.indexOf(filter) + " ; " + txtValue + " ; " + filter + " ; " + txtValue.startsWith(filter))
+                    tr[i].style.display = "none";
+                }
+            }
         }
-    </tbody>
-</table>
+    }
+</script>

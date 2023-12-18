@@ -5,80 +5,201 @@
 </head>
 <style>
     #list {
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-}
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+    }
 
-#column {
-    user-select: none;
-    display: flex;
-    flex-direction: column;
-    height: inherit;
-    width: 25%;
-    justify-content: center;
-    margin-bottom: 10%;
-}
+    column {
+        user-select: none;
+        display: flex;
+        flex-direction: column;
+        width: 25%;
+        justify-content: center;
+        margin-bottom: 10%;
+        border-radius: 10px;
+    }
 
-#title {
-    padding: 10%;
-    font-weight: bold;
-    border-bottom: solid black 2px;
-    text-align: center;
-}
+    #title {
+        padding: 10%;
+        font-weight: bold;
+        border-bottom: solid black 2px;
+        text-align: center;
+    }
 
-#items {
-    padding: 10%;
-}
+    #items {
+        padding: 10%;
+        height: 90%;
+    }
 
-ticket {
-    border: solid rgb(141, 141, 141) 1px;
-    display: block;
-    margin-top: 5px;
-    text-align: center;
-}
+    .ticket {
+        border: solid rgb(149, 149, 149) 1px;
+        border-radius: 5px;
+        display: block;
+        margin-top: 5px;
+        text-align: center;
+        box-shadow: 3px gray;
+        height: 70px;
+        width: 100%;
+        margin-bottom: 5px;
+    }
 
-ticket:hover{
-    cursor: grab;
-}
+    .ticket:hover {
+        cursor: grab;
+    }
 
-ticket:active {
-    cursor: grabbing;
-}
-
+    .ticket:active {
+        cursor: grabbing;
+    }
 </style>
+
 <body>
     <h1>Ticket List</h1>
 
     @Html.ActionLink("Add a Ticket", "Create", null, new { @class = "btn btn-primary" })
 
-    <div id="list">
+    @if (User.IsInRole("admin"))
+    {
+        <p>
+            <form asp-action="Index2" method="get">
+                <div class="form-actions no-color">
+                    <p>
+                        Find by customer: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+                        <input type="submit" value="Search" class="btn btn-default" /> |
+                        <a asp-action="Index2">Back to Full List</a>
+                    </p>
+                </div>
+            </form>
+        </p>
+    }
+
+    <div class="Kanban" id="list">
             @foreach (var status in ViewBag.Statuses)
             {
-                <div id="column">
+            <column id="@status.Value">
                     <div id="title">
                         @status.Text
                     </div>
-                    <div id="items">
+                <div id="items" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="onDragLeave(event)">
                         @foreach (var tickets in ViewBag.TicketsGroupedByStatus)
                         {
                             foreach (var ticket in tickets.Value)
                             {
-                                if (ticket.Status.ToString() == status.Value)
+                                if (ticket.StatusId.ToString() == status.Value)
                                 {
-                                    <ticket ondblclick='window.location="Details?id=@ticket.Id"'>
+                                <div class="ticket" id="@ticket.Id" ondblclick='window.location="Details?id=@ticket.Id"' draggable="true" onDragStart=dragStart(event) data-status="@status.Value">
                                         <p>@ticket.Title</p>
-                                        @Html.ActionLink("Edit", "Edit", new { id = ticket.Id })
-                                        @if(ticket.Status == 1)
+                                        @if(ticket.StatusId == 1)
                                         {
-                                            @Html.ActionLink("Remove", "Delete", new { id = ticket.Id })
+                                            @Html.ActionLink("Edit", "Edit", new { id = ticket.Id })
+                                            @Html.ActionLink(" | Remove", "Delete", new { id = ticket.Id })
                                         }
-                                    </ticket>
+                                        else
+                                        {
+                                            @if(User.IsInRole("admin"))
+                                            {
+                                                @Html.ActionLink("Edit", "Edit", new { id = ticket.Id })
+                                            }
+                                        }
+                                    </div>
                                 }
                             }
                         }
                     </div>
-                </div>
+                </column>
             }
     </div>
 </body>
+<script>
+    function dragStart(event) {
+        event.dataTransfer.setData("text/plain", event.target.id);
+        // Get the column element where the drag started
+        var targetColumn = event.target.closest('#items');
+        var targetColumnId = targetColumn.parentNode.id;
+        event.dataTransfer.setData("text/status", targetColumnId);
+    }
+
+    function allowDrop(event) {
+        event.preventDefault();
+        var targetTicket = event.target.closest('.ticket');
+        if (targetTicket != null)
+            targetTicket.querySelector("p").style.color = "red";
+
+        var targetColumn = event.target.closest('column');
+        targetColumn.style.border = "1px dotted gray";
+    }
+
+    function onDragLeave(event) {
+        event.preventDefault();
+        var targetTicket = event.target.closest('.ticket');
+        if (targetTicket != null)
+            targetTicket.querySelector("p").style.color = "black";
+
+        var targetColumn = event.target.closest('column');
+        targetColumn.style.border = "none";
+    }
+
+    function drop(event) {
+        event.preventDefault();
+        var draggedId = event.dataTransfer.getData("text/plain");
+        var draggedColumnId = event.dataTransfer.getData("text/status");
+        console.log("draggedId=" + draggedId);
+        console.log("draggedColumnId=" + draggedColumnId);
+
+        var draggedElement = document.getElementById(draggedId);
+        var draggedColumn = draggedElement.parentNode;
+
+        console.log("eventTargetclassList=" + event.target.classList);
+
+        // Get the column element where the drop occurred
+        var targetColumn = event.target.closest('#items');
+        var targetColumnId = targetColumn.parentNode.id;
+        console.log("eventTargetClosestColumnId=" + targetColumnId);
+
+        // Get the ticket element where the drop occurred
+        var targetId = 0;
+        var targetTicket = event.target.closest('.ticket');
+        if (targetTicket != null) {
+            targetId = targetTicket.id;
+            console.log("eventTargetClosestTicketId=" + targetId);
+        }
+
+        // If the ticket is dropped within the same column, update the order in the same column
+        if (draggedColumnId === targetColumnId) {
+            // Call server-side method to update the ticket's index
+            $.ajax({
+                type: "POST",
+                url: "Switch",
+                data: "oldid=" + draggedId + "&newid=" + targetId,
+                dataType: "text",
+                success: function (msg) {
+                    console.log(msg);
+                    window.location.reload();
+                },
+                error: function (req, status, error) {
+                    // bij non-admin user komt error 403: forbidden
+                    console.log(error);
+                    window.location.reload();
+                }
+            });
+
+        } else {
+            // Call server-side method to update the ticket's status
+            $.ajax({
+                type: "POST",
+                url: "UpdateStatus",
+                data: "id=" + draggedId + "&newstatus=" + targetColumnId,
+                dataType: "text",
+                success: function (msg) {
+                    console.log(msg);
+                    window.location.reload();
+                },
+                error: function (req, status, error) {
+                    // bij non-admin user komt error 403: forbidden
+                    console.log(error);
+                    window.location.reload();
+                }
+            });
+        }
+    }
+</script>

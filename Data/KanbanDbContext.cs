@@ -93,7 +93,7 @@ namespace Kanban_RMR.Data
                 SecurityStamp = Guid.NewGuid().ToString("D"),
                 PhoneNumberConfirmed = true,
                 Name = "admin",
-                Customer = 1
+                CustomerId = 1
             },
             new KanbanUser
             {
@@ -106,7 +106,7 @@ namespace Kanban_RMR.Data
                 PasswordHash = hasher.HashPassword(null, "Start123#"),
                 SecurityStamp = Guid.NewGuid().ToString("D"),//string.Empty,
                 Name = "empl1",
-                Customer = 1
+                CustomerId = 1
             },
             new KanbanUser
             {
@@ -119,7 +119,7 @@ namespace Kanban_RMR.Data
                 PasswordHash = hasher.HashPassword(null, "Start123#"),
                 SecurityStamp = Guid.NewGuid().ToString("D"),
                 Name = "empl2",
-                Customer = 1
+                CustomerId = 1
             },
             new KanbanUser
             {
@@ -132,7 +132,7 @@ namespace Kanban_RMR.Data
                 PasswordHash = hasher.HashPassword(null, "Start123#"),
                 SecurityStamp = Guid.NewGuid().ToString("D"),
                 Name = "garvis1",
-                Customer = 2
+                CustomerId = 2
             });
         }
         private void SeedUserRoles(ModelBuilder modelBuilder)
@@ -150,7 +150,7 @@ namespace Kanban_RMR.Data
             },
             new IdentityUserRole<string>
             {
-                RoleId = USERROLE_ID,
+                RoleId = ADMINROLE_ID,
                 UserId = EMPL2_ID
             },
             new IdentityUserRole<string>
@@ -198,10 +198,10 @@ namespace Kanban_RMR.Data
                 // Add more customers as needed
             );
             modelBuilder.Entity<Project>().HasData(
-                new Project { Id = 1, Name = "Intern1", Customer = 1 },
-                new Project { Id = 2, Name = "Intern2", Customer = 1 },
-                new Project { Id = 3, Name = "Project1", Customer = 2 },
-                new Project { Id = 4, Name = "Project2", Customer = 2 }
+                new Project { Id = 1, Name = "InternProject1", CustomerId = 1 },
+                new Project { Id = 2, Name = "InternProject2", CustomerId = 1 },
+                new Project { Id = 3, Name = "Project1", CustomerId = 2 },
+                new Project { Id = 4, Name = "Project2", CustomerId = 2 }
                 // Add more projects as needed
             );
         }
@@ -213,11 +213,12 @@ namespace Kanban_RMR.Data
                     Id = 1,
                     Title = "IntTicket1",
                     Description = "internal ticket1",
-                    Type = 3,
-                    Priority = 1,
-                    Status = 1,
-                    Project = 1,
-                    Customer = 1,
+                    TypeId = 3,
+                    PriorityId = 1,
+                    StatusId = 1,
+                    ProjectId = 1,
+                    CustomerId = 1,
+                    Index = 1,
                     CreatedBy = EMPL1_ID,
                     CreatedOn = DateTime.Now
                 },
@@ -226,11 +227,12 @@ namespace Kanban_RMR.Data
                     Id = 2,
                     Title = "IntTicket2",
                     Description = "internal ticket2",
-                    Type = 2,
-                    Priority = 2,
-                    Status = 1,
-                    Project = 1,
-                    Customer = 1,
+                    TypeId = 2,
+                    PriorityId = 2,
+                    StatusId = 1,
+                    ProjectId = 1,
+                    CustomerId = 1,
+                    Index = 2,
                     CreatedBy = EMPL1_ID,
                     CreatedOn = DateTime.Now
                 },
@@ -239,11 +241,12 @@ namespace Kanban_RMR.Data
                     Id = 3,
                     Title = "IntTicket3",
                     Description = "internal ticket3",
-                    Type = 1,
-                    Priority = 3,
-                    Status = 1,
-                    Project = 1,
-                    Customer = 1,
+                    TypeId = 1,
+                    PriorityId = 3,
+                    StatusId = 1,
+                    ProjectId = 2,
+                    CustomerId = 1,
+                    Index = 3,
                     CreatedBy = EMPL2_ID,
                     CreatedOn = DateTime.Now
                 },
@@ -252,11 +255,12 @@ namespace Kanban_RMR.Data
                     Id = 4,
                     Title = "Ticket1",
                     Description = "Ticket Description1",
-                    Type = 2,
-                    Priority = 1,
-                    Status = 1,
-                    Project = 2,
-                    Customer = 2,
+                    TypeId = 2,
+                    PriorityId = 1,
+                    StatusId = 1,
+                    ProjectId = 3,
+                    CustomerId = 2,
+                    Index = 1,
                     CreatedBy = GARVIS1_ID,
                     CreatedOn = DateTime.Now
                 },
@@ -265,11 +269,12 @@ namespace Kanban_RMR.Data
                     Id = 5,
                     Title = "Ticket2",
                     Description = "Ticket Description2",
-                    Type = 1,
-                    Priority = 5,
-                    Status = 1,
-                    Project = 2,
-                    Customer = 2,
+                    TypeId = 1,
+                    PriorityId = 4,
+                    StatusId = 1,
+                    ProjectId = 3,
+                    CustomerId = 2,
+                    Index = 2,
                     CreatedBy = GARVIS1_ID,
                     CreatedOn = DateTime.Now
                 },
@@ -278,11 +283,12 @@ namespace Kanban_RMR.Data
                     Id = 6,
                     Title = "Ticket3",
                     Description = "Ticket Description3",
-                    Type = 1,
-                    Priority = 2,
-                    Status = 1,
-                    Project = 4,
-                    Customer = 2,
+                    TypeId = 1,
+                    PriorityId = 2,
+                    StatusId = 1,
+                    ProjectId = 4,
+                    CustomerId = 2,
+                    Index = 3,
                     CreatedBy = GARVIS1_ID,
                     CreatedOn = DateTime.Now
                 }

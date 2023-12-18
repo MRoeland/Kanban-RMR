@@ -13,23 +13,25 @@
     </div>
     <div class="form-group">
         <label asp-for="Project" class="control-label"></label>
-        <input asp-for="Project" class="form-control" />
+        <select asp-for="ProjectId" asp-items="ViewBag.Projects" class="form-control"></select>
     </div>
     <div class="form-group">
         <label asp-for="Type" class="control-label"></label>
-        <select asp-for="Type" asp-items="ViewBag.Types" class="form-control"></select>
-    </div>
-    <div class="form-group">
-        <label asp-for="Status" class="control-label"></label>
-        <select asp-for="Status" asp-items="ViewBag.Statuses" class="form-control"></select>
+        <select asp-for="TypeId" asp-items="ViewBag.Types" class="form-control"></select>
     </div>
     <div class="form-group">
         <label asp-for="Priority" class="control-label"></label>
-        <select asp-for="Priority" asp-items="ViewBag.Priorities" class="form-control"></select>
+        <select asp-for="PriorityId" asp-items="ViewBag.Priorities" class="form-control"></select>
     </div>
 
     <div class="form-group">
-        <input asp-for="Customer" class="form-control" readonly="readonly" value=@ViewBag.Customer type="hidden" />
+        <input asp-for="StatusId" class="form-control" readonly="readonly" value=1 type="hidden" />
+    </div>
+    <div class="form-group">
+        <input asp-for="Index" class="form-control" readonly="readonly" value=@ViewBag.Index type="hidden" />
+    </div>
+    <div class="form-group">
+        <input asp-for="CustomerId" class="form-control" readonly="readonly" value=@ViewBag.CustomerId type="hidden" />
     </div>
     <div class="form-group">
         <input asp-for="CreatedBy" class="form-control" readonly="readonly" value=@ViewBag.CreatedBy type="hidden" />

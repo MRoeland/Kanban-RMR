@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KanbanRMR.Migrations
 {
     [DbContext(typeof(KanbanDbContext))]
-    [Migration("20231201151752_InitialDBSetup")]
+    [Migration("20231218201156_InitialDBSetup")]
     partial class InitialDBSetup
     {
         /// <inheritdoc />
@@ -25,6 +25,34 @@ namespace KanbanRMR.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Kanban_RMR.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TicketId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TicketId");
+
+                    b.ToTable("Comment");
+                });
+
             modelBuilder.Entity("Kanban_RMR.Models.Customer", b =>
                 {
                     b.Property<int>("Id")
@@ -32,6 +60,9 @@ namespace KanbanRMR.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -48,11 +79,13 @@ namespace KanbanRMR.Migrations
                         new
                         {
                             Id = 1,
+                            Deleted = false,
                             Name = "Intern"
                         },
                         new
                         {
                             Id = 2,
+                            Deleted = false,
                             Name = "Garvis"
                         });
                 });
@@ -69,7 +102,7 @@ namespace KanbanRMR.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Customer")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -101,11 +134,17 @@ namespace KanbanRMR.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Penalties")
+                        .HasColumnType("int");
+
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<int>("Points")
+                        .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -116,6 +155,9 @@ namespace KanbanRMR.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("deleted")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -132,75 +174,87 @@ namespace KanbanRMR.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "675fc8fd-0beb-4db9-b7e2-cd2f70b04332",
+                            Id = "01d5f1e3-8791-4924-bb2c-a4153383492c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1b479e6d-873a-4453-96ef-8239f7515164",
-                            Customer = 1,
+                            ConcurrencyStamp = "0bb55c3f-6fbc-4853-bd4b-547dc8f683ac",
+                            CustomerId = 1,
                             Email = "admin@testemail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             Name = "admin",
                             NormalizedEmail = "admin@testemail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHoBzzDj7gMGTy8x6VRHMY35B+3jiYtmCZykFFhnq50P4k9+QQQUCWuK+k0/PAWpig==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEoP0z7nxxe4wG7GqKB45SOH06TtabCDkNcFePuT4bcPNnssbvf4RGWJFPoCPMGRrA==",
+                            Penalties = 0,
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "d1754ddf-7372-4662-bdbc-6b925f80fd8a",
+                            Points = 0,
+                            SecurityStamp = "0858bb38-8c97-4b1e-b650-f46e64727e6c",
                             TwoFactorEnabled = false,
-                            UserName = "admin"
+                            UserName = "admin",
+                            deleted = false
                         },
                         new
                         {
-                            Id = "e1609bd5-57f8-44b9-9f5b-1d707fc5ffdf",
+                            Id = "a275286d-59d2-4060-b047-c1a1d7ccd460",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "666a0a10-5065-40e6-a1e4-3ce07f8dc613",
-                            Customer = 1,
+                            ConcurrencyStamp = "222e2f66-426f-40b9-be59-3e06f2ab6822",
+                            CustomerId = 1,
                             Email = "empl1@testemail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             Name = "empl1",
                             NormalizedEmail = "empl1@testemail.com",
                             NormalizedUserName = "empl1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDdRjZxBw2aG6ORRr0QPRvOzi83G+r2U0EvC6/b4mCuhbI2i/6d0ewIDFVsOb+cXvg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIRot0fkf1QDnM+Gfzu3io5/WYDzQ5sbaGXqd3yQs1s/zMrQ53f4542gPJhXyyXvSw==",
+                            Penalties = 0,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4e15894e-97df-428a-9468-94df6c370a2f",
+                            Points = 0,
+                            SecurityStamp = "a05b2bb5-9187-4101-9f14-bbeb9f9c27f3",
                             TwoFactorEnabled = false,
-                            UserName = "empl1"
+                            UserName = "empl1",
+                            deleted = false
                         },
                         new
                         {
-                            Id = "7a1c79ae-6fb9-401c-9d5b-38b95eb7c35d",
+                            Id = "21f98a97-5fa3-476a-a783-6d5802491050",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "52489484-c174-4dc7-a87a-230e32bff9d9",
-                            Customer = 1,
+                            ConcurrencyStamp = "84b464be-e795-4140-8708-6bc66b8696a9",
+                            CustomerId = 1,
                             Email = "empl2@testemail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             Name = "empl2",
                             NormalizedEmail = "empl2@testemail.com",
                             NormalizedUserName = "empl2",
-                            PasswordHash = "AQAAAAIAAYagAAAAELiSHUxw+O33p1+kPNh7Wk7G7Xc5ON9hxIdMfZ4woQUp6DZECiH04xV1mIJslisOwQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJxOUuC8T2BdOO+IljsP+lPcklUIdQlrhPxAvKrvq0zNB82La4fh9EMoB+lD1iaLyA==",
+                            Penalties = 0,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4b8b471e-d167-4c4e-9c37-c1035bb021ab",
+                            Points = 0,
+                            SecurityStamp = "dbcc3ca5-b64b-4753-8c28-bf5d107fba31",
                             TwoFactorEnabled = false,
-                            UserName = "empl2"
+                            UserName = "empl2",
+                            deleted = false
                         },
                         new
                         {
-                            Id = "8a6fd090-868c-4240-b65f-1460b09b6bed",
+                            Id = "35f4a031-3b7a-46d8-b13d-34ab024d5a0c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7fae4dab-b417-41a9-b934-fd877e6d81d0",
-                            Customer = 2,
+                            ConcurrencyStamp = "5e921558-6dcb-4d13-927d-718d6afee4c5",
+                            CustomerId = 2,
                             Email = "garvis1@testemail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             Name = "garvis1",
                             NormalizedEmail = "garvis1@testemail.com",
                             NormalizedUserName = "garvis1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIs4xp8CQ8Mc+dyx8yS9p/S9yOJ0GW//gbykrVvEh/XpfMXm9TbDMGqNPLrdlYIofg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOfg6WjspbC5JQrUFDzYeOg+9sDhWGb+tfMsI7UNjsSbphM7h0guJ2yUZTVAxkabLw==",
+                            Penalties = 0,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f5ec7ca6-7cfd-4500-8e27-9e11568a0e8d",
+                            Points = 0,
+                            SecurityStamp = "b6e8ac3e-035d-4f22-80c9-04746e879440",
                             TwoFactorEnabled = false,
-                            UserName = "garvis1"
+                            UserName = "garvis1",
+                            deleted = false
                         });
                 });
 
@@ -216,6 +270,9 @@ namespace KanbanRMR.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -229,24 +286,28 @@ namespace KanbanRMR.Migrations
                         {
                             Id = 1,
                             Color = "#f7f7ed",
+                            Deleted = false,
                             Description = "Minor"
                         },
                         new
                         {
                             Id = 2,
                             Color = "#fcfc03",
+                            Deleted = false,
                             Description = "Major"
                         },
                         new
                         {
                             Id = 3,
                             Color = "#fcba03",
+                            Deleted = false,
                             Description = "Critical"
                         },
                         new
                         {
                             Id = 4,
                             Color = "#fc5a03",
+                            Deleted = false,
                             Description = "Blocking"
                         });
                 });
@@ -259,8 +320,11 @@ namespace KanbanRMR.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Customer")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -277,25 +341,29 @@ namespace KanbanRMR.Migrations
                         new
                         {
                             Id = 1,
-                            Customer = 1,
-                            Name = "Intern1"
+                            CustomerId = 1,
+                            Deleted = false,
+                            Name = "InternProject1"
                         },
                         new
                         {
                             Id = 2,
-                            Customer = 1,
-                            Name = "Intern2"
+                            CustomerId = 1,
+                            Deleted = false,
+                            Name = "InternProject2"
                         },
                         new
                         {
                             Id = 3,
-                            Customer = 2,
+                            CustomerId = 2,
+                            Deleted = false,
                             Name = "Project1"
                         },
                         new
                         {
                             Id = 4,
-                            Customer = 2,
+                            CustomerId = 2,
+                            Deleted = false,
                             Name = "Project2"
                         });
                 });
@@ -312,6 +380,9 @@ namespace KanbanRMR.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("Enabled")
                         .HasColumnType("bit");
 
@@ -327,6 +398,7 @@ namespace KanbanRMR.Migrations
                         {
                             Id = 1,
                             Action = "CreatedTicket",
+                            Deleted = false,
                             Enabled = true,
                             Points = 1
                         },
@@ -334,6 +406,7 @@ namespace KanbanRMR.Migrations
                         {
                             Id = 2,
                             Action = "CreatedDuplicateTicket",
+                            Deleted = false,
                             Enabled = true,
                             Points = -1
                         },
@@ -341,6 +414,7 @@ namespace KanbanRMR.Migrations
                         {
                             Id = 3,
                             Action = "MoveToDone",
+                            Deleted = false,
                             Enabled = true,
                             Points = 1
                         });
@@ -354,6 +428,9 @@ namespace KanbanRMR.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -366,26 +443,31 @@ namespace KanbanRMR.Migrations
                         new
                         {
                             Id = 1,
+                            Deleted = false,
                             Description = "To Do"
                         },
                         new
                         {
                             Id = 2,
+                            Deleted = false,
                             Description = "Analysis"
                         },
                         new
                         {
                             Id = 3,
+                            Deleted = false,
                             Description = "In progress"
                         },
                         new
                         {
                             Id = 4,
+                            Deleted = false,
                             Description = "In review"
                         },
                         new
                         {
                             Id = 5,
+                            Deleted = false,
                             Description = "Done"
                         });
                 });
@@ -400,13 +482,16 @@ namespace KanbanRMR.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Customer")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -414,26 +499,41 @@ namespace KanbanRMR.Migrations
                     b.Property<int?>("Effort")
                         .HasColumnType("int");
 
-                    b.Property<int>("Priority")
+                    b.Property<int?>("Index")
                         .HasColumnType("int");
 
-                    b.Property<int>("Project")
+                    b.Property<int>("PriorityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Status")
+                    b.Property<int>("StatusId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("TypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("PriorityId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex("TypeId");
 
                     b.ToTable("Tickets");
 
@@ -441,80 +541,92 @@ namespace KanbanRMR.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedBy = "e1609bd5-57f8-44b9-9f5b-1d707fc5ffdf",
-                            CreatedOn = new DateTime(2023, 12, 1, 16, 17, 51, 997, DateTimeKind.Local).AddTicks(8742),
-                            Customer = 1,
+                            CreatedBy = "a275286d-59d2-4060-b047-c1a1d7ccd460",
+                            CreatedOn = new DateTime(2023, 12, 18, 21, 11, 55, 688, DateTimeKind.Local).AddTicks(6932),
+                            CustomerId = 1,
+                            Deleted = false,
                             Description = "internal ticket1",
-                            Priority = 1,
-                            Project = 1,
-                            Status = 1,
+                            Index = 1,
+                            PriorityId = 1,
+                            ProjectId = 1,
+                            StatusId = 1,
                             Title = "IntTicket1",
-                            Type = 3
+                            TypeId = 3
                         },
                         new
                         {
                             Id = 2,
-                            CreatedBy = "e1609bd5-57f8-44b9-9f5b-1d707fc5ffdf",
-                            CreatedOn = new DateTime(2023, 12, 1, 16, 17, 51, 997, DateTimeKind.Local).AddTicks(8820),
-                            Customer = 1,
+                            CreatedBy = "a275286d-59d2-4060-b047-c1a1d7ccd460",
+                            CreatedOn = new DateTime(2023, 12, 18, 21, 11, 55, 688, DateTimeKind.Local).AddTicks(7021),
+                            CustomerId = 1,
+                            Deleted = false,
                             Description = "internal ticket2",
-                            Priority = 2,
-                            Project = 1,
-                            Status = 1,
+                            Index = 2,
+                            PriorityId = 2,
+                            ProjectId = 1,
+                            StatusId = 1,
                             Title = "IntTicket2",
-                            Type = 2
+                            TypeId = 2
                         },
                         new
                         {
                             Id = 3,
-                            CreatedBy = "7a1c79ae-6fb9-401c-9d5b-38b95eb7c35d",
-                            CreatedOn = new DateTime(2023, 12, 1, 16, 17, 51, 997, DateTimeKind.Local).AddTicks(8827),
-                            Customer = 1,
+                            CreatedBy = "21f98a97-5fa3-476a-a783-6d5802491050",
+                            CreatedOn = new DateTime(2023, 12, 18, 21, 11, 55, 688, DateTimeKind.Local).AddTicks(7030),
+                            CustomerId = 1,
+                            Deleted = false,
                             Description = "internal ticket3",
-                            Priority = 3,
-                            Project = 1,
-                            Status = 1,
+                            Index = 3,
+                            PriorityId = 3,
+                            ProjectId = 2,
+                            StatusId = 1,
                             Title = "IntTicket3",
-                            Type = 1
+                            TypeId = 1
                         },
                         new
                         {
                             Id = 4,
-                            CreatedBy = "8a6fd090-868c-4240-b65f-1460b09b6bed",
-                            CreatedOn = new DateTime(2023, 12, 1, 16, 17, 51, 997, DateTimeKind.Local).AddTicks(8832),
-                            Customer = 2,
+                            CreatedBy = "35f4a031-3b7a-46d8-b13d-34ab024d5a0c",
+                            CreatedOn = new DateTime(2023, 12, 18, 21, 11, 55, 688, DateTimeKind.Local).AddTicks(7037),
+                            CustomerId = 2,
+                            Deleted = false,
                             Description = "Ticket Description1",
-                            Priority = 1,
-                            Project = 2,
-                            Status = 1,
+                            Index = 1,
+                            PriorityId = 1,
+                            ProjectId = 3,
+                            StatusId = 1,
                             Title = "Ticket1",
-                            Type = 2
+                            TypeId = 2
                         },
                         new
                         {
                             Id = 5,
-                            CreatedBy = "8a6fd090-868c-4240-b65f-1460b09b6bed",
-                            CreatedOn = new DateTime(2023, 12, 1, 16, 17, 51, 997, DateTimeKind.Local).AddTicks(8838),
-                            Customer = 2,
+                            CreatedBy = "35f4a031-3b7a-46d8-b13d-34ab024d5a0c",
+                            CreatedOn = new DateTime(2023, 12, 18, 21, 11, 55, 688, DateTimeKind.Local).AddTicks(7044),
+                            CustomerId = 2,
+                            Deleted = false,
                             Description = "Ticket Description2",
-                            Priority = 5,
-                            Project = 2,
-                            Status = 1,
+                            Index = 2,
+                            PriorityId = 4,
+                            ProjectId = 3,
+                            StatusId = 1,
                             Title = "Ticket2",
-                            Type = 1
+                            TypeId = 1
                         },
                         new
                         {
                             Id = 6,
-                            CreatedBy = "8a6fd090-868c-4240-b65f-1460b09b6bed",
-                            CreatedOn = new DateTime(2023, 12, 1, 16, 17, 51, 997, DateTimeKind.Local).AddTicks(8843),
-                            Customer = 2,
+                            CreatedBy = "35f4a031-3b7a-46d8-b13d-34ab024d5a0c",
+                            CreatedOn = new DateTime(2023, 12, 18, 21, 11, 55, 688, DateTimeKind.Local).AddTicks(7051),
+                            CustomerId = 2,
+                            Deleted = false,
                             Description = "Ticket Description3",
-                            Priority = 2,
-                            Project = 4,
-                            Status = 1,
+                            Index = 3,
+                            PriorityId = 2,
+                            ProjectId = 4,
+                            StatusId = 1,
                             Title = "Ticket3",
-                            Type = 1
+                            TypeId = 1
                         });
                 });
 
@@ -525,6 +637,9 @@ namespace KanbanRMR.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -538,16 +653,19 @@ namespace KanbanRMR.Migrations
                         new
                         {
                             Id = 1,
+                            Deleted = false,
                             Description = "Bug"
                         },
                         new
                         {
                             Id = 2,
+                            Deleted = false,
                             Description = "Feature"
                         },
                         new
                         {
                             Id = 3,
+                            Deleted = false,
                             Description = "Improvement"
                         });
                 });
@@ -581,13 +699,13 @@ namespace KanbanRMR.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9fe81b61-725d-480f-81ee-59b0be12de88",
+                            Id = "bbc0a426-0973-4f3f-9b85-04ce5de3f0ca",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "4510d37e-d0d5-49c9-aee4-2f5f5e36c622",
+                            Id = "a576e28e-d1a7-4ddb-84b9-e0843ad98922",
                             Name = "user",
                             NormalizedName = "user"
                         });
@@ -684,23 +802,23 @@ namespace KanbanRMR.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "675fc8fd-0beb-4db9-b7e2-cd2f70b04332",
-                            RoleId = "9fe81b61-725d-480f-81ee-59b0be12de88"
+                            UserId = "01d5f1e3-8791-4924-bb2c-a4153383492c",
+                            RoleId = "bbc0a426-0973-4f3f-9b85-04ce5de3f0ca"
                         },
                         new
                         {
-                            UserId = "e1609bd5-57f8-44b9-9f5b-1d707fc5ffdf",
-                            RoleId = "9fe81b61-725d-480f-81ee-59b0be12de88"
+                            UserId = "a275286d-59d2-4060-b047-c1a1d7ccd460",
+                            RoleId = "bbc0a426-0973-4f3f-9b85-04ce5de3f0ca"
                         },
                         new
                         {
-                            UserId = "7a1c79ae-6fb9-401c-9d5b-38b95eb7c35d",
-                            RoleId = "4510d37e-d0d5-49c9-aee4-2f5f5e36c622"
+                            UserId = "21f98a97-5fa3-476a-a783-6d5802491050",
+                            RoleId = "bbc0a426-0973-4f3f-9b85-04ce5de3f0ca"
                         },
                         new
                         {
-                            UserId = "8a6fd090-868c-4240-b65f-1460b09b6bed",
-                            RoleId = "4510d37e-d0d5-49c9-aee4-2f5f5e36c622"
+                            UserId = "35f4a031-3b7a-46d8-b13d-34ab024d5a0c",
+                            RoleId = "a576e28e-d1a7-4ddb-84b9-e0843ad98922"
                         });
                 });
 
@@ -723,6 +841,66 @@ namespace KanbanRMR.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Kanban_RMR.Models.Comment", b =>
+                {
+                    b.HasOne("Kanban_RMR.Models.Ticket", null)
+                        .WithMany("TBL_Comments")
+                        .HasForeignKey("TicketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Kanban_RMR.Models.Ticket", b =>
+                {
+                    b.HasOne("Kanban_RMR.Models.KanbanUser", "KanbanUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Kanban_RMR.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Kanban_RMR.Models.Priority", "Priority")
+                        .WithMany()
+                        .HasForeignKey("PriorityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Kanban_RMR.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Kanban_RMR.Models.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Kanban_RMR.Models.TicketType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("KanbanUser");
+
+                    b.Navigation("Priority");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("Status");
+
+                    b.Navigation("Type");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -774,6 +952,11 @@ namespace KanbanRMR.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Kanban_RMR.Models.Ticket", b =>
+                {
+                    b.Navigation("TBL_Comments");
                 });
 #pragma warning restore 612, 618
         }
