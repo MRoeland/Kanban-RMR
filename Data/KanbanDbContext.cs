@@ -19,6 +19,7 @@ namespace Kanban_RMR.Data
         public DbSet<Project> Projects { get; set; }
         public DbSet<Reward> Rewards { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         public KanbanDbContext(DbContextOptions<KanbanDbContext> options) : base(options)
         {
@@ -27,10 +28,12 @@ namespace Kanban_RMR.Data
         // any unique string id
         string ADMIN_ID = Guid.NewGuid().ToString("D");
         string ADMINROLE_ID = Guid.NewGuid().ToString("D");
+        string EMPLROLE_ID = Guid.NewGuid().ToString("D");
         string USERROLE_ID = Guid.NewGuid().ToString("D");
 
         string EMPL1_ID = Guid.NewGuid().ToString("D");
         string EMPL2_ID = Guid.NewGuid().ToString("D");
+        string EMPL3_ID = Guid.NewGuid().ToString("D");
         string GARVIS1_ID = Guid.NewGuid().ToString("D");
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -45,6 +48,22 @@ namespace Kanban_RMR.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            if (modelBuilder == null)
+                throw new ArgumentNullException("modelBuilder");
+
+            // for the other conventions, we do a metadata model loop
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                // equivalent of modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+                entityType.SetTableName(entityType.DisplayName());
+
+                // equivalent of modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+                entityType.GetForeignKeys()
+                    .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade)
+                    .ToList()
+                    .ForEach(fk => fk.DeleteBehavior = DeleteBehavior.Restrict);
+            }
+
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<KanbanUser>()
@@ -75,6 +94,12 @@ namespace Kanban_RMR.Data
                 Id = USERROLE_ID,
                 Name = "user",
                 NormalizedName = "user"
+            },
+            new IdentityRole
+            {
+                Id = EMPLROLE_ID,
+                Name = "employee",
+                NormalizedName = "employee"
             });
         }
         private void SeedUsers(ModelBuilder modelBuilder)
@@ -106,7 +131,8 @@ namespace Kanban_RMR.Data
                 PasswordHash = hasher.HashPassword(null, "Start123#"),
                 SecurityStamp = Guid.NewGuid().ToString("D"),//string.Empty,
                 Name = "empl1",
-                CustomerId = 1
+                CustomerId = 1,
+                Points = 2
             },
             new KanbanUser
             {
@@ -119,6 +145,20 @@ namespace Kanban_RMR.Data
                 PasswordHash = hasher.HashPassword(null, "Start123#"),
                 SecurityStamp = Guid.NewGuid().ToString("D"),
                 Name = "empl2",
+                CustomerId = 1,
+                Points = 1
+            },
+            new KanbanUser
+            {
+                Id = EMPL3_ID,
+                UserName = "empl3",
+                NormalizedUserName = "empl3",
+                Email = "empl3@testemail.com",
+                NormalizedEmail = "empl3testemail.com",
+                EmailConfirmed = true,
+                PasswordHash = hasher.HashPassword(null, "Start123#"),
+                SecurityStamp = Guid.NewGuid().ToString("D"),
+                Name = "empl3",
                 CustomerId = 1
             },
             new KanbanUser
@@ -132,7 +172,8 @@ namespace Kanban_RMR.Data
                 PasswordHash = hasher.HashPassword(null, "Start123#"),
                 SecurityStamp = Guid.NewGuid().ToString("D"),
                 Name = "garvis1",
-                CustomerId = 2
+                CustomerId = 2,
+                Points = 1
             });
         }
         private void SeedUserRoles(ModelBuilder modelBuilder)
@@ -150,8 +191,18 @@ namespace Kanban_RMR.Data
             },
             new IdentityUserRole<string>
             {
-                RoleId = ADMINROLE_ID,
+                RoleId = EMPLROLE_ID,
+                UserId = EMPL1_ID
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = EMPLROLE_ID,
                 UserId = EMPL2_ID
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = EMPLROLE_ID,
+                UserId = EMPL3_ID
             },
             new IdentityUserRole<string>
             {
@@ -186,7 +237,11 @@ namespace Kanban_RMR.Data
             modelBuilder.Entity<Reward>().HasData(
                 new Reward { Id = 1, Action = "CreatedTicket", Points = 1, Enabled = true },
                 new Reward { Id = 2, Action = "CreatedDuplicateTicket", Points = -1, Enabled = true },
-                new Reward { Id = 3, Action = "MoveToDone", Points = 1, Enabled = true }
+                new Reward { Id = 3, Action = "MoveToDone", Points = 1, Enabled = true },
+                new Reward { Id = 4, Action = "AddedComment", Points = 1, Enabled = true },
+                new Reward { Id = 5, Action = "RemovedComment", Points = -1, Enabled = true },
+                new Reward { Id = 6, Action = "LikedComment", Points = 1, Enabled = true },
+                new Reward { Id = 7, Action = "DislikedComment", Points = -1, Enabled = true }
                 // Add more rewards as needed
             );
         }

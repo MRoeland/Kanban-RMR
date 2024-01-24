@@ -1,0 +1,15 @@
+@model Customer
+
+<h1>Customer Details</h1>
+
+<div>
+    <h3>@Model.Name</h3>
+    <p>Description: @Model.Description</p>
+</div>
+<div style="user-select:none;">
+    @if (User.IsInRole("admin"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit | </a>
+    }
+    <a asp-action="Index">Back to List</a>
+</div>

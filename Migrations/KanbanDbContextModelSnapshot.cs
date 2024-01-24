@@ -30,6 +30,10 @@ namespace KanbanRMR.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -40,10 +44,18 @@ namespace KanbanRMR.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Dislikes")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Likes")
+                        .HasColumnType("int");
+
                     b.Property<int>("TicketId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
 
                     b.HasIndex("TicketId");
 
@@ -70,7 +82,7 @@ namespace KanbanRMR.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customer");
 
                     b.HasData(
                         new
@@ -158,6 +170,8 @@ namespace KanbanRMR.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CustomerId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -171,9 +185,9 @@ namespace KanbanRMR.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "01d5f1e3-8791-4924-bb2c-a4153383492c",
+                            Id = "daf93f3f-45dd-40dc-ae46-b17eebf520e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0bb55c3f-6fbc-4853-bd4b-547dc8f683ac",
+                            ConcurrencyStamp = "96b95441-1512-41f0-807a-7473c5257261",
                             CustomerId = 1,
                             Email = "admin@testemail.com",
                             EmailConfirmed = true,
@@ -181,20 +195,20 @@ namespace KanbanRMR.Migrations
                             Name = "admin",
                             NormalizedEmail = "admin@testemail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEoP0z7nxxe4wG7GqKB45SOH06TtabCDkNcFePuT4bcPNnssbvf4RGWJFPoCPMGRrA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECKief5EM2rI7NPE+CYPsUtrGZiYRwRdh/cu+zuN0aTuwmZJRexFBCaNMm21bTcPww==",
                             Penalties = 0,
                             PhoneNumberConfirmed = true,
                             Points = 0,
-                            SecurityStamp = "0858bb38-8c97-4b1e-b650-f46e64727e6c",
+                            SecurityStamp = "b1b6ed8a-53c7-4ccd-9877-5002e6d7e026",
                             TwoFactorEnabled = false,
                             UserName = "admin",
                             deleted = false
                         },
                         new
                         {
-                            Id = "a275286d-59d2-4060-b047-c1a1d7ccd460",
+                            Id = "b79d6b4c-8ff6-42c6-ad76-38247bfc447b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "222e2f66-426f-40b9-be59-3e06f2ab6822",
+                            ConcurrencyStamp = "fcfb0597-0e86-4a09-810f-cf566cce8052",
                             CustomerId = 1,
                             Email = "empl1@testemail.com",
                             EmailConfirmed = true,
@@ -202,20 +216,20 @@ namespace KanbanRMR.Migrations
                             Name = "empl1",
                             NormalizedEmail = "empl1@testemail.com",
                             NormalizedUserName = "empl1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIRot0fkf1QDnM+Gfzu3io5/WYDzQ5sbaGXqd3yQs1s/zMrQ53f4542gPJhXyyXvSw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHMbDAZNVEw9GfzycLyw7xrQAw1i00ktK7dMuSfJ4Tza6TZI40IZREFj9HFrhJqjOQ==",
                             Penalties = 0,
                             PhoneNumberConfirmed = false,
-                            Points = 0,
-                            SecurityStamp = "a05b2bb5-9187-4101-9f14-bbeb9f9c27f3",
+                            Points = 2,
+                            SecurityStamp = "488af5c2-2e50-4aad-abed-9161d2b520a9",
                             TwoFactorEnabled = false,
                             UserName = "empl1",
                             deleted = false
                         },
                         new
                         {
-                            Id = "21f98a97-5fa3-476a-a783-6d5802491050",
+                            Id = "d19c9551-5000-48df-ad83-9e4ea8cba3e8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "84b464be-e795-4140-8708-6bc66b8696a9",
+                            ConcurrencyStamp = "d59b72ab-cfeb-4c06-8f9e-3453253d0eb8",
                             CustomerId = 1,
                             Email = "empl2@testemail.com",
                             EmailConfirmed = true,
@@ -223,20 +237,41 @@ namespace KanbanRMR.Migrations
                             Name = "empl2",
                             NormalizedEmail = "empl2@testemail.com",
                             NormalizedUserName = "empl2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJxOUuC8T2BdOO+IljsP+lPcklUIdQlrhPxAvKrvq0zNB82La4fh9EMoB+lD1iaLyA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEK2FE/q5KJOwNBvjSTSorQH9jorrgyuiLWmTIOeJGvMrlVcp/w85Q7qsI1gnN+WAOw==",
                             Penalties = 0,
                             PhoneNumberConfirmed = false,
-                            Points = 0,
-                            SecurityStamp = "dbcc3ca5-b64b-4753-8c28-bf5d107fba31",
+                            Points = 1,
+                            SecurityStamp = "8a1df346-f03d-4397-bb32-f9c0a52a439a",
                             TwoFactorEnabled = false,
                             UserName = "empl2",
                             deleted = false
                         },
                         new
                         {
-                            Id = "35f4a031-3b7a-46d8-b13d-34ab024d5a0c",
+                            Id = "fb16d5f6-af58-45c5-836e-282359f8b193",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5e921558-6dcb-4d13-927d-718d6afee4c5",
+                            ConcurrencyStamp = "2dcbc9d3-622b-45fc-8ee0-e4c22ab569ce",
+                            CustomerId = 1,
+                            Email = "empl3@testemail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            Name = "empl3",
+                            NormalizedEmail = "empl3testemail.com",
+                            NormalizedUserName = "empl3",
+                            PasswordHash = "AQAAAAIAAYagAAAAELRDpoFU8jP2WG43OK5w50U2SKQSMDshesi/KVbGYVVLBFe997PVx6YjlGV9hS5gkw==",
+                            Penalties = 0,
+                            PhoneNumberConfirmed = false,
+                            Points = 0,
+                            SecurityStamp = "6ce011ac-e9d5-453c-8d58-c9aa0ed03208",
+                            TwoFactorEnabled = false,
+                            UserName = "empl3",
+                            deleted = false
+                        },
+                        new
+                        {
+                            Id = "eeb1bb63-6ee1-48d6-b025-7e1468dc59ca",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "1458936e-e39d-445c-b69e-70113937c81b",
                             CustomerId = 2,
                             Email = "garvis1@testemail.com",
                             EmailConfirmed = true,
@@ -244,11 +279,11 @@ namespace KanbanRMR.Migrations
                             Name = "garvis1",
                             NormalizedEmail = "garvis1@testemail.com",
                             NormalizedUserName = "garvis1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOfg6WjspbC5JQrUFDzYeOg+9sDhWGb+tfMsI7UNjsSbphM7h0guJ2yUZTVAxkabLw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMMDZS6iqZH1oemHdOpLpGxo8k3XzI5mC/zaYf6AVwiOiLN20uXCXzT/uk4dhfQfNw==",
                             Penalties = 0,
                             PhoneNumberConfirmed = false,
-                            Points = 0,
-                            SecurityStamp = "b6e8ac3e-035d-4f22-80c9-04746e879440",
+                            Points = 1,
+                            SecurityStamp = "58f0e328-27c6-4085-bea1-bc537907f04c",
                             TwoFactorEnabled = false,
                             UserName = "garvis1",
                             deleted = false
@@ -276,7 +311,7 @@ namespace KanbanRMR.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Priorities");
+                    b.ToTable("Priority");
 
                     b.HasData(
                         new
@@ -332,7 +367,9 @@ namespace KanbanRMR.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Projects");
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Project");
 
                     b.HasData(
                         new
@@ -388,7 +425,7 @@ namespace KanbanRMR.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rewards");
+                    b.ToTable("Reward");
 
                     b.HasData(
                         new
@@ -414,6 +451,38 @@ namespace KanbanRMR.Migrations
                             Deleted = false,
                             Enabled = true,
                             Points = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Action = "AddedComment",
+                            Deleted = false,
+                            Enabled = true,
+                            Points = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Action = "RemovedComment",
+                            Deleted = false,
+                            Enabled = true,
+                            Points = -1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Action = "LikedComment",
+                            Deleted = false,
+                            Enabled = true,
+                            Points = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Action = "DislikedComment",
+                            Deleted = false,
+                            Enabled = true,
+                            Points = -1
                         });
                 });
 
@@ -434,7 +503,7 @@ namespace KanbanRMR.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Statuses");
+                    b.ToTable("Status");
 
                     b.HasData(
                         new
@@ -532,14 +601,14 @@ namespace KanbanRMR.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("Tickets");
+                    b.ToTable("Ticket");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CreatedBy = "a275286d-59d2-4060-b047-c1a1d7ccd460",
-                            CreatedOn = new DateTime(2023, 12, 18, 21, 11, 55, 688, DateTimeKind.Local).AddTicks(6932),
+                            CreatedBy = "b79d6b4c-8ff6-42c6-ad76-38247bfc447b",
+                            CreatedOn = new DateTime(2024, 1, 24, 20, 38, 8, 621, DateTimeKind.Local).AddTicks(9093),
                             CustomerId = 1,
                             Deleted = false,
                             Description = "internal ticket1",
@@ -553,8 +622,8 @@ namespace KanbanRMR.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedBy = "a275286d-59d2-4060-b047-c1a1d7ccd460",
-                            CreatedOn = new DateTime(2023, 12, 18, 21, 11, 55, 688, DateTimeKind.Local).AddTicks(7021),
+                            CreatedBy = "b79d6b4c-8ff6-42c6-ad76-38247bfc447b",
+                            CreatedOn = new DateTime(2024, 1, 24, 20, 38, 8, 621, DateTimeKind.Local).AddTicks(9234),
                             CustomerId = 1,
                             Deleted = false,
                             Description = "internal ticket2",
@@ -568,8 +637,8 @@ namespace KanbanRMR.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedBy = "21f98a97-5fa3-476a-a783-6d5802491050",
-                            CreatedOn = new DateTime(2023, 12, 18, 21, 11, 55, 688, DateTimeKind.Local).AddTicks(7030),
+                            CreatedBy = "d19c9551-5000-48df-ad83-9e4ea8cba3e8",
+                            CreatedOn = new DateTime(2024, 1, 24, 20, 38, 8, 621, DateTimeKind.Local).AddTicks(9240),
                             CustomerId = 1,
                             Deleted = false,
                             Description = "internal ticket3",
@@ -583,8 +652,8 @@ namespace KanbanRMR.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedBy = "35f4a031-3b7a-46d8-b13d-34ab024d5a0c",
-                            CreatedOn = new DateTime(2023, 12, 18, 21, 11, 55, 688, DateTimeKind.Local).AddTicks(7037),
+                            CreatedBy = "eeb1bb63-6ee1-48d6-b025-7e1468dc59ca",
+                            CreatedOn = new DateTime(2024, 1, 24, 20, 38, 8, 621, DateTimeKind.Local).AddTicks(9247),
                             CustomerId = 2,
                             Deleted = false,
                             Description = "Ticket Description1",
@@ -598,8 +667,8 @@ namespace KanbanRMR.Migrations
                         new
                         {
                             Id = 5,
-                            CreatedBy = "35f4a031-3b7a-46d8-b13d-34ab024d5a0c",
-                            CreatedOn = new DateTime(2023, 12, 18, 21, 11, 55, 688, DateTimeKind.Local).AddTicks(7044),
+                            CreatedBy = "eeb1bb63-6ee1-48d6-b025-7e1468dc59ca",
+                            CreatedOn = new DateTime(2024, 1, 24, 20, 38, 8, 621, DateTimeKind.Local).AddTicks(9253),
                             CustomerId = 2,
                             Deleted = false,
                             Description = "Ticket Description2",
@@ -613,8 +682,8 @@ namespace KanbanRMR.Migrations
                         new
                         {
                             Id = 6,
-                            CreatedBy = "35f4a031-3b7a-46d8-b13d-34ab024d5a0c",
-                            CreatedOn = new DateTime(2023, 12, 18, 21, 11, 55, 688, DateTimeKind.Local).AddTicks(7051),
+                            CreatedBy = "eeb1bb63-6ee1-48d6-b025-7e1468dc59ca",
+                            CreatedOn = new DateTime(2024, 1, 24, 20, 38, 8, 621, DateTimeKind.Local).AddTicks(9257),
                             CustomerId = 2,
                             Deleted = false,
                             Description = "Ticket Description3",
@@ -644,7 +713,7 @@ namespace KanbanRMR.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TicketTypes");
+                    b.ToTable("TicketType");
 
                     b.HasData(
                         new
@@ -696,15 +765,21 @@ namespace KanbanRMR.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "bbc0a426-0973-4f3f-9b85-04ce5de3f0ca",
+                            Id = "cc5edb92-cf28-4862-a4f1-1a39f1b27761",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "a576e28e-d1a7-4ddb-84b9-e0843ad98922",
+                            Id = "082665b9-de26-40b0-a88b-cb46564edbf6",
                             Name = "user",
                             NormalizedName = "user"
+                        },
+                        new
+                        {
+                            Id = "07cd1428-b34e-45cc-8501-874e1d10255c",
+                            Name = "employee",
+                            NormalizedName = "employee"
                         });
                 });
 
@@ -799,23 +874,33 @@ namespace KanbanRMR.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "01d5f1e3-8791-4924-bb2c-a4153383492c",
-                            RoleId = "bbc0a426-0973-4f3f-9b85-04ce5de3f0ca"
+                            UserId = "daf93f3f-45dd-40dc-ae46-b17eebf520e5",
+                            RoleId = "cc5edb92-cf28-4862-a4f1-1a39f1b27761"
                         },
                         new
                         {
-                            UserId = "a275286d-59d2-4060-b047-c1a1d7ccd460",
-                            RoleId = "bbc0a426-0973-4f3f-9b85-04ce5de3f0ca"
+                            UserId = "b79d6b4c-8ff6-42c6-ad76-38247bfc447b",
+                            RoleId = "cc5edb92-cf28-4862-a4f1-1a39f1b27761"
                         },
                         new
                         {
-                            UserId = "21f98a97-5fa3-476a-a783-6d5802491050",
-                            RoleId = "bbc0a426-0973-4f3f-9b85-04ce5de3f0ca"
+                            UserId = "b79d6b4c-8ff6-42c6-ad76-38247bfc447b",
+                            RoleId = "07cd1428-b34e-45cc-8501-874e1d10255c"
                         },
                         new
                         {
-                            UserId = "35f4a031-3b7a-46d8-b13d-34ab024d5a0c",
-                            RoleId = "a576e28e-d1a7-4ddb-84b9-e0843ad98922"
+                            UserId = "d19c9551-5000-48df-ad83-9e4ea8cba3e8",
+                            RoleId = "07cd1428-b34e-45cc-8501-874e1d10255c"
+                        },
+                        new
+                        {
+                            UserId = "fb16d5f6-af58-45c5-836e-282359f8b193",
+                            RoleId = "07cd1428-b34e-45cc-8501-874e1d10255c"
+                        },
+                        new
+                        {
+                            UserId = "eeb1bb63-6ee1-48d6-b025-7e1468dc59ca",
+                            RoleId = "082665b9-de26-40b0-a88b-cb46564edbf6"
                         });
                 });
 
@@ -842,11 +927,41 @@ namespace KanbanRMR.Migrations
 
             modelBuilder.Entity("Kanban_RMR.Models.Comment", b =>
                 {
-                    b.HasOne("Kanban_RMR.Models.Ticket", null)
-                        .WithMany("TBL_Comments")
-                        .HasForeignKey("TicketId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("Kanban_RMR.Models.KanbanUser", "KanbanUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("Kanban_RMR.Models.Ticket", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("TicketId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("KanbanUser");
+                });
+
+            modelBuilder.Entity("Kanban_RMR.Models.KanbanUser", b =>
+                {
+                    b.HasOne("Kanban_RMR.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("Kanban_RMR.Models.Project", b =>
+                {
+                    b.HasOne("Kanban_RMR.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("Kanban_RMR.Models.Ticket", b =>
@@ -854,37 +969,37 @@ namespace KanbanRMR.Migrations
                     b.HasOne("Kanban_RMR.Models.KanbanUser", "KanbanUser")
                         .WithMany()
                         .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Kanban_RMR.Models.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Kanban_RMR.Models.Priority", "Priority")
                         .WithMany()
                         .HasForeignKey("PriorityId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Kanban_RMR.Models.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Kanban_RMR.Models.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Kanban_RMR.Models.TicketType", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Customer");
@@ -953,7 +1068,7 @@ namespace KanbanRMR.Migrations
 
             modelBuilder.Entity("Kanban_RMR.Models.Ticket", b =>
                 {
-                    b.Navigation("TBL_Comments");
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

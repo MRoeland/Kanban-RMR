@@ -1,3 +1,4 @@
+using Azure.Core;
 using Kanban_RMR.Data;
 using Kanban_RMR.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -7,13 +8,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json.Linq;
 using System.Net.Sockets;
 using System.Security.Claims;
 using System.Security.Cryptography.Xml;
+using System.Web;
+using System.Xml.Linq;
+
 
 public class TicketsController : Controller
 {
     private readonly KanbanDbContext _context;
+    private static Microsoft.Extensions.Primitives.StringValues referer;
 
     public TicketsController(KanbanDbContext context)
     {
@@ -23,7 +30,7 @@ public class TicketsController : Controller
     // GET: Tickets
     public async Task<IActionResult> Index()
     {
-        var userid = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userid = GetUserId();
         KanbanUser user = _context.Users.Where(a => a.Id == userid).Single();
 
         if (user.CustomerId == 1)
@@ -50,7 +57,7 @@ public class TicketsController : Controller
     // GET: Tickets2
     public async Task<IActionResult> Index2(string searchString)
     {
-        var userid = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userid = GetUserId();
         KanbanUser user = _context.Users.Where(a => a.Id == userid).Single();
 
         ViewData["CurrentFilter"] = searchString;
@@ -111,6 +118,8 @@ public class TicketsController : Controller
         var ticket =  await _context.Tickets
             .Include(x => x.Status).Include(x => x.Priority).Include(x => x.Type)
             .Include(x => x.Customer).Include(x => x.Project).Include(x => x.KanbanUser)
+            .Include(x => x.Comments.Where(c => c.Deleted == false))
+            .ThenInclude(c => c.KanbanUser)
             .AsNoTracking()
             .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -121,11 +130,14 @@ public class TicketsController : Controller
         return View(ticket);
     }
 
-    [Authorize(Roles = "admin,user")]
+    [Authorize(Roles = "admin,employee,user")]
     // GET: Tickets/Create
     public IActionResult Create()
     {
-        var userid = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+        //get redirect url where we came from (Index or Index2)
+        referer = Request.Headers.Referer;
+
+        var userid = GetUserId();
         KanbanUser user = _context.Users.Where(a => a.Id == userid).Single();
 
         // Fetch the data from the "TicketTypes" table
@@ -173,12 +185,19 @@ public class TicketsController : Controller
         {
             _context.Add(ticket);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index2));
+
+            await AddReward("CreatedTicket");
+
+            // If redirect supplied, then do it, otherwise use a default
+            if (!String.IsNullOrEmpty(referer))
+                return Redirect(referer.ToString());
+            else
+                return RedirectToAction(nameof(Index2));
         }
         return View(ticket);
     }
 
-    [Authorize(Roles = "admin,user")]
+    [Authorize(Roles = "admin,employee,user")]
     // GET: Tickets/Edit/5
     public async Task<IActionResult> Edit(int? id)
     {
@@ -187,7 +206,10 @@ public class TicketsController : Controller
             return NotFound();
         }
 
-        var userid = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+        //get redirect url where we came from (Index or Index2)
+        referer = Request.Headers.Referer;
+
+        var userid = GetUserId();
         KanbanUser user = _context.Users.Where(a => a.Id == userid).Single();
 
         //ticket ophalen
@@ -266,12 +288,16 @@ public class TicketsController : Controller
                     throw;
                 }
             }
-            return RedirectToAction(nameof(Index2));
+            // If redirect supplied, then do it, otherwise use a default
+            if (!String.IsNullOrEmpty(referer))
+                return Redirect(referer.ToString());
+            else
+                return RedirectToAction(nameof(Index2));
         }
         return View(ticket);
     }
 
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin,employee")]
     // GET: Tickets/Delete/5
     public async Task<IActionResult> Delete(int? id)
     {
@@ -279,6 +305,10 @@ public class TicketsController : Controller
         {
             return NotFound();
         }
+
+        //get redirect url where we came from (Index or Index2)
+        referer = Request.Headers.Referer;
+
         //ticket ophalen
         var ticket = await _context.Tickets
             .FirstOrDefaultAsync(m => m.Id == id);
@@ -292,7 +322,7 @@ public class TicketsController : Controller
 
     // POST: Tickets/Delete/5
     [HttpPost, ActionName("Delete")]
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin,employee")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
@@ -302,7 +332,12 @@ public class TicketsController : Controller
         ticket.Deleted = true;
         _context.Update(ticket);
         await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
+
+        // If redirect supplied, then do it, otherwise use a default
+        if (!String.IsNullOrEmpty(referer))
+            return Redirect(referer.ToString());
+        else
+            return RedirectToAction(nameof(Index));
     }
 
     private bool TicketExists(int id)
@@ -312,7 +347,7 @@ public class TicketsController : Controller
 
     // POST: Tickets/Switch
     [HttpPost, ActionName("Switch")]
-    [Authorize(Roles = "admin,user")]
+    [Authorize(Roles = "admin,employee,user")]
     public async Task<IActionResult> Switch(int oldid, int newid)
     {
         if (oldid== newid)
@@ -392,10 +427,10 @@ public class TicketsController : Controller
 
     // POST: Tickets/UpdateStatus/5
     [HttpPost, ActionName("UpdateStatus")]
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin,employee")]
     public async Task<IActionResult> UpdateStatus(int id, int newstatus)
     {
-        if (User.IsInRole("admin"))
+        if(User.IsInRole("admin") || User.IsInRole("employee"))
         {
             //Status ophalen van ticket dat gedragged is
             Ticket ticketToMove = _context.Tickets.Where(x => x.Id == id).Single();
@@ -408,10 +443,135 @@ public class TicketsController : Controller
             ticketToMove.Status = _context.Statuses.Where(x => x.Id == newstatus).Single();
             _context.Update(ticketToMove);
             await _context.SaveChangesAsync();
+
+            if (newstatus == 5)
+                await AddReward("MoveToDone");
+
             return RedirectToAction(nameof(Index2));
         }
         else {
             return Json(new { success = false, responseText = "update status not allowed" });
         }
+    }
+
+    // Action to save a comment
+    [HttpPost, ActionName("SaveComment")]
+    [Authorize(Roles = "admin,employee,user")]
+    public async Task<IActionResult> SaveComment(int ticketId, string commentText)
+    {
+        Comment newComment = null;
+        if (commentText != null)
+        {
+            newComment = new Comment
+            {
+                TicketId = ticketId,
+                CreatedBy = GetUserId(),
+                Description = commentText,
+                CreatedOn = DateTime.Now
+            };
+            _context.Add(newComment);
+            await _context.SaveChangesAsync();
+
+            await AddReward("AddedComment");
+            return Json(new { success = true }); // Return a success message to the client if needed
+        }
+        return Json(new { success = false, responseText = "Comment is empty" });
+    }
+
+    // Action to update a comment
+    [HttpPost, ActionName("UpdateComment")]
+    [Authorize(Roles = "admin,employee,user")]
+    public async Task<IActionResult> UpdateComment(int ticketId, int commentId, string commentText)
+    {
+        var commentToUpdate = _context.Comments.FirstOrDefault(c => c.Id == commentId && c.TicketId == ticketId);
+        if (commentToUpdate != null)
+        {
+            commentToUpdate.Description = commentText;
+            commentToUpdate.CreatedOn = DateTime.Now;
+
+            _context.Update(commentToUpdate);
+            await _context.SaveChangesAsync();
+            return Json(new { success = true }); // Return a success message to the client if needed
+        }
+        return Json(new { success = false, responseText = "Comment not found for update" });
+    }
+
+    // Action to delete a comment
+    [HttpPost, ActionName("DeleteComment")]
+    public async Task<IActionResult> DeleteComment(int ticketId, int commentId)
+    {
+        var commentToDelete = _context.Comments.FirstOrDefault(c => c.Id == commentId && c.TicketId == ticketId);
+        if (commentToDelete != null)
+        {
+            commentToDelete.Deleted = true;
+            _context.Update(commentToDelete);
+            await _context.SaveChangesAsync();
+            return Json(new { success = true }); // Return a success message to the client if needed
+        }
+        return Json(new { success = false, responseText = "Comment not found for delete" });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> LikeComment(int ticketId, int commentId)
+    {
+        // Implement logic to find and update the comment's like count
+        var comment = _context.Comments.FirstOrDefault(c => c.Id == commentId && c.TicketId == ticketId);
+        if (comment != null)
+        {
+            var currentUserId = GetUserId();
+            if (comment.CreatedBy != currentUserId)
+            {
+                comment.Likes++;
+                _context.Update(comment);
+                await _context.SaveChangesAsync();
+                await AddReward("LikedComment", comment.CreatedBy);
+            }
+        }
+
+        return Json(new { likes = comment.Likes });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DislikeComment(int ticketId, int commentId)
+    {
+        // Implement logic to find and update the comment's dislike count
+        var comment = _context.Comments.FirstOrDefault(c => c.Id == commentId && c.TicketId == ticketId);
+        if (comment != null)
+        {
+            var currentUserId = GetUserId();
+            if (comment.CreatedBy != currentUserId)
+            {
+                comment.Dislikes++;
+                _context.Update(comment);
+                await _context.SaveChangesAsync();
+                await AddReward("DislikedComment", comment.CreatedBy);
+            }
+        }
+
+        return Json(new { dislikes = comment.Dislikes });
+    }
+
+    private async Task<bool> AddReward(string action, string userId = null)
+    {
+        Reward reward = _context.Rewards.Where(r => r.Action == action && r.Enabled == true && r.Deleted == false).Single();
+        if (reward != null)
+        {
+            var usertoreward = userId;
+            if (usertoreward == null)
+              usertoreward = GetUserId();
+            KanbanUser user = _context.Users.Where(a => a.Id == usertoreward).Single();
+
+            user.Points = user.Points + reward.Points;
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+        }
+        return true;
+    }
+
+    private string GetUserId()
+    {
+        //return id of user currently logged in
+        var userid = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+        return userid;
     }
 }

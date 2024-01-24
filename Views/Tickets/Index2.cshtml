@@ -1,7 +1,7 @@
 @model List<Ticket>
 
 <head>
-    <title>Ticket List</title>
+    <title>Tickets</title>
 </head>
 <style>
     #list {
@@ -44,6 +44,18 @@
         margin-bottom: 5px;
     }
 
+    .ticket span{
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .itemcolorlbl{
+        height: 100%;
+        width: 100%;
+        border-left: 8px solid purple;
+        border-radius: 4px 0 0 4px;
+    }
+
     .ticket:hover {
         cursor: grab;
     }
@@ -53,8 +65,36 @@
     }
 </style>
 
+<script>
+        function setpriocolor(ticketid, prioid) {
+            console.log(ticketid);
+            console.log(prioid);
+            switch (prioid) {
+                case 1:
+                    document.getElementById("clrlbl_" + ticketid).style.borderColor = "rgb(51, 204, 51)";
+                    break;
+
+                case 2:
+                    document.getElementById("clrlbl_" + ticketid).style.borderColor = "rgb(255, 204, 0)";
+                    break;
+
+                case 3:
+                    document.getElementById("clrlbl_" + ticketid).style.borderColor = "rgb(255, 153, 0)";
+                    break;
+
+                case 4:
+                    document.getElementById("clrlbl_" + ticketid).style.borderColor = "rgb(255, 66, 66)";
+                    break;
+
+                default:
+                    document.getElementById("clrlbl_" + ticketid).style.borderColor = "Blue";
+                    break;
+            }
+        }
+</script>
+
 <body>
-    <h1>Ticket List</h1>
+    <h1>Tickets</h1>
 
     @Html.ActionLink("Add a Ticket", "Create", null, new { @class = "btn btn-primary" })
 
@@ -87,21 +127,26 @@
                             {
                                 if (ticket.StatusId.ToString() == status.Value)
                                 {
-                                <div class="ticket" id="@ticket.Id" ondblclick='window.location="Details?id=@ticket.Id"' draggable="true" onDragStart=dragStart(event) data-status="@status.Value">
-                                        <p>@ticket.Title</p>
-                                        @if(ticket.StatusId == 1)
-                                        {
-                                            @Html.ActionLink("Edit", "Edit", new { id = ticket.Id })
-                                            @Html.ActionLink(" | Remove", "Delete", new { id = ticket.Id })
-                                        }
-                                        else
-                                        {
-                                            @if(User.IsInRole("admin"))
+                                    <div class="ticket" id="@ticket.Id" ondblclick='window.location="Details?id=@ticket.Id"' draggable="true" onDragStart=dragStart(event) data-status="@status.Value">
+                                        <label class="itemcolorlbl" id="clrlbl_@ticket.Id">
+                                            <span>@ticket.Title</span>
+                                            @if(ticket.StatusId == 1)
                                             {
                                                 @Html.ActionLink("Edit", "Edit", new { id = ticket.Id })
+                                                @Html.ActionLink(" | Remove", "Delete", new { id = ticket.Id })
                                             }
-                                        }
+                                            else
+                                            {
+                                                @if(User.IsInRole("admin") || User.IsInRole("employee"))
+                                                {
+                                                    @Html.ActionLink("Edit", "Edit", new { id = ticket.Id })
+                                                }
+                                            }
+                                        </label>
                                     </div>
+                                    <script>
+                                        setpriocolor(@ticket.Id, @ticket.PriorityId);
+                                    </script>
                                 }
                             }
                         }
@@ -110,7 +155,8 @@
             }
     </div>
 </body>
-<script>
+
+ <script>
     function dragStart(event) {
         event.dataTransfer.setData("text/plain", event.target.id);
         // Get the column element where the drag started

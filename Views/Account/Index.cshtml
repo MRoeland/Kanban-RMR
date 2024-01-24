@@ -1,0 +1,147 @@
+﻿@model IEnumerable<Kanban_RMR.Models.KanbanUser>
+
+@{
+    ViewData["Title"] = "Users";
+}
+<style>
+    main.pb-3 {
+        border: 1px solid #dee2e6;
+        border-radius: 15px;
+        padding: 5px !important;
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    input:not([type=checkbox]) {
+        all: unset;
+        width: 100%;
+        padding: 3px 10px 5px 10px;
+        border-radius: 15px;
+        box-sizing: border-box;
+        border: 1px solid gray;
+    }
+
+    table.table {
+        width: 100%;
+        margin-bottom: unset;
+    }
+
+    main > div {
+        border: 1px solid gray;
+        border-radius: 15px;
+    }
+
+    .table > :not(caption) > * > * {
+        border-bottom: unset;
+    }
+
+    tbody tr {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    tbody tr:last-of-type {
+        border-bottom: unset;
+    }
+
+    tbody td:not(:first-of-type), thead th:not(:first-of-type) {
+        padding-left: 3%;
+        width: 200px;
+    }
+</style>
+
+<h1>User Management</h1>
+
+@if (User.IsInRole("admin"))
+{
+    <p>
+        <a asp-action="Create">Add a User</a>
+    </p>
+}
+<input id="q" name="q" type="search" placeholder="Search on customer" onkeyup="updatetable()" />
+<div>
+    <table id="qtable" class="table">
+        <thead style="user-select:none;">
+            <tr>
+                <th>
+                    <span>@Html.DisplayNameFor(model => model.UserName)</span>
+                </th>
+                <th>
+                    <span>@Html.DisplayNameFor(model => model.Email)</span>
+                </th>
+                <th>
+                    <span>Customer</span>
+                </th>
+                <th>
+                    <span>EmailConfirmed</span>
+                </th>
+                <th>
+                    <span>Deleted</span>
+                </th>
+                <th>
+                    <span>Roles</span>
+                </th>
+                <th>
+                    <span>Actions</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Customer.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmailConfirmed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.deleted)
+                    </td>
+                    <td>
+                        @string.Join(", ", await UserManager.GetRolesAsync(item))
+                    </td>
+                    <td style="user-select:none;">
+                        <a asp-action="Details" asp-route-id="@item.Id">+</a>
+                        @if (User.IsInRole("admin"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">| Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id"> | Delete</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    function updatetable() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("q");
+        filter = input.value.toLowerCase();;
+        table = document.getElementById("qtable");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            tr[i].style.display = "";
+            td = tr[i].getElementsByTagName("td")[2];
+            if (td) {
+                txtValue = td.innerText.split(' ')[0].toLowerCase();;
+                if (txtValue.indexOf(filter) > -1 && txtValue.startsWith(filter)) {
+                    tr[i].style.display = "";
+                } else {
+                    console.log(txtValue.indexOf(filter) + " ; " + txtValue + " ; " + filter + " ; " + txtValue.startsWith(filter))
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

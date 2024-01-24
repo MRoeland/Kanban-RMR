@@ -1,0 +1,11 @@
+﻿@model IdentityRole
+
+<h1>Delete Role</h1>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <p>Are you sure you want to delete the role <strong>@Model.Name</strong>?</p>
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+</form>

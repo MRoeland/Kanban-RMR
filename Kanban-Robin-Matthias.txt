@@ -1,3 +1,5 @@
+Customer: GARVIS
+
 We hebben de links met documentatie en papers bekeken en hebben hierin wat inspiratie gevonden.
 Voor onze Kanban oplossing willen we een score-systeem toepassen.
 
@@ -53,3 +55,89 @@ Op de todo kolom kan gefilterd worden naar prioriteit om bijvoorbeeld enkel de b
 We zouden ook een "like / dislike" functie willen voorzien voor een ticket of oplossing (comment?) van een ticket. Dit zou eventueel ook kunnen resulteren in extra punten.
 
 Voor de tabellen types, priorities, customers, projects, options, employees, punten worden aparte admin views met crud-functionaliteit voorzien.
+
+
+
+
+Voor simpele login/register views:
+https://www.freecodespot.com/blog/asp-net-core-identity/#V_Create_Register_Action_%C2%BB_AccountController
+
+
+
+
+Na het toevoegen van een foreign key (customerid in user-tabel) en de CustomerController kregen we een foutmelding bij de dotnet-ef database update:
+
+
+Microsoft.Data.SqlClient.SqlException (0x80131904): Introducing FOREIGN KEY constraint 'FK_AspNetUsers_Customers_CustomerId' on table 'AspNetUsers' may cause cycles or multiple cascade paths. Specify ON DELETE NO ACTION or ON UPDATE NO ACTION, or modify other FOREIGN KEY constraints.
+Could not create constraint or index. See previous errors.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean isAsync, Int32 timeout, Boolean asyncWrite)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Migrations.MigrationCommand.ExecuteNonQuery(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQuery(IEnumerable`1 migrationCommands, IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.Migrate(String targetMigration)
+   at Microsoft.EntityFrameworkCore.Design.Internal.MigrationsOperations.UpdateDatabase(String targetMigration, String connectionString, String contextType)
+   at Microsoft.EntityFrameworkCore.Design.OperationExecutor.UpdateDatabaseImpl(String targetMigration, String connectionString, String contextType)
+   at Microsoft.EntityFrameworkCore.Design.OperationExecutor.UpdateDatabase.<>c__DisplayClass0_0.<.ctor>b__0()
+   at Microsoft.EntityFrameworkCore.Design.OperationExecutor.OperationBase.Execute(Action action)
+ClientConnectionId:6f82d665-89a3-4fff-bfd9-162df847755f
+Error Number:1785,State:0,Class:16
+Introducing FOREIGN KEY constraint 'FK_AspNetUsers_Customers_CustomerId' on table 'AspNetUsers' may cause cycles or multiple cascade paths. Specify ON DELETE NO ACTION or ON UPDATE NO ACTION, or modify other FOREIGN KEY constraints.
+Could not create constraint or index. See previous errors.
+
+
+Iste poging tot oplossing:
+
+
+In Migrations\20240114162356_InitialDBSetup.cs:
+
+Verander de ReferentialAction.Cascade naar ReferentialAction.NoAction voor key FK_AspNetUsers_Customers_CustomerId
+
+               constraints: table =>
+               {
+                   table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                   table.ForeignKey(
+                       name: "FK_AspNetUsers_Customers_CustomerId",
+                       column: x => x.CustomerId,
+                       principalTable: "Customers",
+                       principalColumn: "Id",
+                       onDelete: ReferentialAction.NoAction);
+               });
+
+
+
+Dit is echter geen algemene oplossing voor ALLE foreign key problemen en moet telkens weer opnieuw gedaan worden bij elke nieuwe migration
+
+Een betere (more sustainable) oplossing hebben we gevonden door de DeleteBehavior te wijzigen (restricten) in de OnModelCreating van onze DBContext:
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            if (modelBuilder == null)
+                throw new ArgumentNullException("modelBuilder");
+
+            // for the other conventions, we do a metadata model loop
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                // equivalent of modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+                entityType.SetTableName(entityType.DisplayName());
+
+                // equivalent of modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+                entityType.GetForeignKeys()
+                    .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade)
+                    .ToList()
+                    .ForEach(fk => fk.DeleteBehavior = DeleteBehavior.Restrict);
+            }
+
+            base.OnModelCreating(modelBuilder);
+
+
+
+
+ 
+
+

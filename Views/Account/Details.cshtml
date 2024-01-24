@@ -1,0 +1,70 @@
+﻿@model Kanban_RMR.Models.KanbanUser
+
+@{
+    ViewData["Title"] = "Details";
+}
+<style>
+    character {
+        display: flex;
+        background: LightGray;
+        box-shadow: 5px 5px Gray;
+        flex: 1 0 auto;
+    }
+
+    #characterPic {
+        user-select: none;
+        height: 50%;
+        margin-right: 5%;
+    }
+
+    main {
+        display: flex;
+    }
+
+    name {
+        user-select: none;
+        font-weight: bold;
+    }
+
+        name p {
+            user-select: text;
+            font-weight: 100;
+            margin-left: 20px;
+        }
+
+    column {
+        margin: 3%;
+        display: flex;
+        flex-direction: column;
+        flex: 1 0 auto;
+    }
+
+    row {
+        display: flex;
+        flex-direction: row;
+    }
+
+</style>
+<character>
+    <column>
+        <row>
+            <column>
+                <name>@Html.DisplayNameFor(model => model.UserName)<p>@Html.DisplayFor(model => model.UserName)</p></name>
+                <name>@Html.DisplayNameFor(model => model.Email)<p>@Html.DisplayFor(model => model.Email)</p></name>
+                <name>@Html.DisplayNameFor(model => model.Name)<p>@Html.DisplayFor(model => model.Name)</p></name>
+                <name>Customer<p>@Html.DisplayFor(model => model.Customer.Name)</p></name>
+                <name>EmailConfirmed<p>@Html.DisplayFor(model => model.EmailConfirmed)</p></name>
+                <name>Deleted<p>@Html.DisplayFor(model => model.deleted)</p></name>
+                <name>Roles<p>@(string.Join(", ", await UserManager.GetRolesAsync(Model)))</p></name>
+            </column>
+        </row>
+        <hr />
+        <div style="user-select:none;">
+            @if (User.IsInRole("admin"))
+            {
+                <a asp-action="Edit" asp-route-id="@Model?.Id">Edit | </a>
+            }
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </column>
+</character>

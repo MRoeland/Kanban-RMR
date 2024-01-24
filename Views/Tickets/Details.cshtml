@@ -1,15 +1,231 @@
 @model Ticket
 
 <h1>Ticket Details</h1>
+<style>
+    .comment-section-container {
+        min-height: 400px; /* Set the minimum height of the comment section */
+        max-height: 400px; /* Set the maximum height of the comment section */
+        overflow-y: auto; /* Enable vertical scrolling when content exceeds the container height */
+        border: 1px solid lightgray; /* Add a border for visual separation */
+        padding: 10px; /* Add padding for spacing */
+    }
 
-<div>
-    <h3>@Model.Title</h3>
-    <p>Description: @Model.Description</p>
-    <p>Type: @Model.Type.Description</p>
-    <p>Project: @Model.Project.Name</p>
-    <p>Status: @Model.Status.Description</p>
-    <p>Priority: @Model.Priority.Description</p>
-    <p>Customer: @Model.Customer.Name</p>
-    <p>Created By: @Model.KanbanUser.Name</p>
-    <p>Created On: @Model.CreatedOn</p>
-</div>
+    .thumb-icon {
+        cursor: pointer;
+        font-size: 24px;
+        margin-right: 5px;
+    }
+
+    .like-dislike-section {
+        margin-top: 10px;
+    }
+
+    .page {
+        display: flex;
+        flex-direction: row;
+    }
+    
+    .details {
+        width: 50%;
+        align-content: center;
+    }
+
+    .commenting {
+        width: 50%;
+        height: 100%;
+    }
+
+    .comment-add {
+        display: flex;
+        flex-direction: row;
+        height: 40%;
+    }
+
+    .comment-add textarea {
+        width: 85%;
+        height: 40%;
+        resize: none;
+    }
+
+    .comment-add button#addcomment {
+        width: 15%;
+        height: 40%;
+    }
+
+    .comment-section-container ul {
+        list-style: none;
+    }
+
+    .comment-section-container li {
+        border: 1px solid #ccc;
+        width: 100%;
+        height: 100%;
+        padding: 5px;
+
+        &:not(:first-of-type)
+        {
+            margin-top: 10px;
+        }
+    }
+    
+</style>
+
+<div class="page">
+    <div class="details">
+        <h3>@Model.Title</h3>
+        <p>Description: @Model.Description</p>
+        <p>Type: @Model.Type.Description</p>
+        <p>Project: @Model.Project.Name</p>
+        <p>Status: @Model.Status.Description</p>
+        <p>Priority: @Model.Priority.Description</p>
+        <p>Customer: @Model.Customer.Name</p>
+        <p>Created By: @Model.KanbanUser.Name</p>
+        <p>Created On: @Model.CreatedOn</p>
+    </div>
+    
+    <!-- Comment section -->
+    <div class="commenting">
+        <div class="comment-add">
+            <textarea id="commentInput_@Model.Id" placeholder="Add a comment..."></textarea>
+            <button id="addcomment" onclick="addComment(@Model.Id)">Add Comment</button>
+        </div>
+        <div class="comment-section-container">
+                <h3>Comments</h3>
+
+                @if (Model.Comments != null && Model.Comments.Any())
+                {
+                    <ul>
+                        @foreach (var item in Model.Comments)
+                        {
+                            <li>
+                                <strong>@item.KanbanUser.Name:</strong>
+                                <p>@item.Description</p>
+                                <span class="timestamp">@item.CreatedOn.ToString("yyyy-MM-dd HH:mm:ss")</span>
+                                @if (User.Identity.Name == item.KanbanUser.Name)
+                                {
+                                    <button onclick="editComment(@item.TicketId, @item.Id, '@item.Description')">Edit</button>
+                                    <button onclick="deleteComment(@item.TicketId, @item.Id)">Delete</button>
+                                }
+                                <div class="like-dislike-section">
+                                    <span class="thumb-icon" onclick="likeComment(@item.TicketId, '@item.Id')">&#128077;</span>
+                                    <span class="like-count">@item.Likes</span>
+
+                                    <span class="thumb-icon" onclick="dislikeComment(@item.TicketId, '@item.Id')">&#128078;</span>
+                                    <span class="dislike-count">@item.Dislikes</span>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>No comments available.</p>
+                }
+            </div>
+        </div>
+    </div>
+
+<script>
+    function addComment(ticketId) {
+        var commentInput = $('#commentInput_' + ticketId);
+
+        var commentText = commentInput.val().trim();
+        console.log("commentText=" + commentText);
+        if (commentText !== '') {
+
+            // Clear the comment input
+            //commentInput.val('');
+
+            // Call server-side method to add comment to the ticket
+            $.ajax({
+                type: "POST",
+                url: "../SaveComment",
+                data: "ticketId=" + ticketId + "&commentText=" + commentText,
+                dataType: "text",
+                success: function (msg) {
+                    console.log(msg);
+                    window.location.reload();
+                },
+                error: function (req, status, error) {
+                    console.log(error);
+                    window.location.reload();
+                }
+            });
+
+            console.log("after call Ajax");
+        }
+    }
+
+    function editComment(ticketId, commentId, description) {
+        var newCommentText = prompt('Edit comment:', description);
+        console.log("newCommentText=" + newCommentText);
+        if (newCommentText !== null) {
+            // Call server-side method to update comment in the ticket
+            $.ajax({
+                type: "POST",
+                url: "../UpdateComment",
+                data: "ticketId=" + ticketId + "&commentId=" + commentId + "&commentText=" + newCommentText,
+                dataType: "text",
+                success: function (msg) {
+                    console.log(msg);
+                    window.location.reload();
+                },
+                error: function (req, status, error) {
+                    console.log(error);
+                    window.location.reload();
+                }
+            });
+        }
+    }
+
+    function deleteComment(ticketId, commentId) {
+        // Call server-side method to remove comment from the ticket
+        $.ajax({
+            type: "POST",
+            url: "../DeleteComment",
+            data: "ticketId=" + ticketId +"&commentId=" + commentId,
+            dataType: "text",
+            success: function (msg) {
+                console.log(msg);
+                window.location.reload();
+            },
+            error: function (req, status, error) {
+                console.log(error);
+                window.location.reload();
+            }
+        });
+    }
+
+    function likeComment(ticketId, commentId) {
+        // Call server-side method to add like to comment
+        $.ajax({
+            type: "POST",
+            url: "../LikeComment",
+            data: { ticketId: ticketId, commentId: commentId },
+            success: function (data) {
+                // Update the like count on the UI
+                $(".like-count").text(data.likes);
+            },
+            error: function (error) {
+                console.error("Error liking comment: " + error);
+            }
+        });
+    }
+
+    function dislikeComment(ticketId, commentId) {
+        // Call server-side method to add dislike to comment
+        $.ajax({
+            type: "POST",
+            url: "../DislikeComment",
+            data: { ticketId: ticketId, commentId: commentId },
+            success: function (data) {
+                // Update the dislike count on the UI
+                $(".dislike-count").text(data.dislikes);
+            },
+            error: function (error) {
+                console.error("Error disliking comment: " + error);
+            }
+        });
+    }
+
+</script>

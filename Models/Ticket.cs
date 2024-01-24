@@ -29,7 +29,7 @@ public class Ticket
     public bool Deleted { get; set; }
 
 
-    public virtual ICollection<Comment>? TBL_Comments { get; set; }
+    public virtual ICollection<Comment>? Comments { get; set; }
 
     public virtual TicketType? Type{ get; set; }
     public virtual Project? Project{ get; set; }

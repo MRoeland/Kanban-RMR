@@ -1,4 +1,4 @@
-@model List<Ticket>
+@model List<Project>
 <style>
     main.pb-3{
         border: 1px solid #dee2e6;
@@ -40,44 +40,35 @@
     }
     tbody td:not(:first-of-type), thead th:not(:first-of-type) {
         padding-left: 3%;
-        width: 250px;
+        width: 200px;
     }
 </style>
 
-<h1>Ticket Management</h1>
+<h1>Project Management</h1>
 
-@Html.ActionLink("Add a Ticket", "Create", null, new { @class = "btn btn-primary" })
+@if (User.IsInRole("admin"))
+{
+    @Html.ActionLink("Add a Project", "Create", null, new { @class = "btn btn-primary" })
+}
 <input id="q" type="search" placeholder="Search on customer" onkeyup="updatetable()" />
 <div>
     <table id="qtable">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Type</th>
-                <th>Project</th>
-                <th>Status</th>
-                <th>Priority</th>
+                <th>Name</th>
                 <th>Customer</th>
-                <th>CreatedBy</th>
-                <th>CreatedOn</th>
-                <th></th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.Title</td>
-                    <td>@item.Type.Description</td>
-                    <td>@item.Project.Name</td>
-                    <td>@item.Status.Description</td>
-                    <td>@item.Priority.Description</td>
+                    <td>@item.Name</td>
                     <td>@item.Customer.Name</td>
-                    <td>@item.KanbanUser.Name</td>
-                    <td>@item.CreatedOn</td>
-                    <td>
+                    <td style="user-select:none;">
                         <a asp-action="Details" asp-route-id="@item.Id">+</a>
-                        @if (User.IsInRole("admin") || User.IsInRole("employee"))
+                        @if (User.IsInRole("admin"))
                         {
                             <a asp-action="Edit" asp-route-id="@item.Id">| Edit</a>
                             <a asp-action="Delete" asp-route-id="@item.Id"> | Delete</a>
@@ -98,7 +89,7 @@
         for (i = 0; i < tr.length; i++) {
             console.log(tr[i]);
             tr[i].style.display = "";
-            td = tr[i].getElementsByTagName("td")[5];
+            td = tr[i].getElementsByTagName("td")[1];
             if (td) {
                 txtValue = td.innerText.split(' ')[0].toLowerCase();
                 if (txtValue.indexOf(filter) > -1 && txtValue.startsWith(filter)) {

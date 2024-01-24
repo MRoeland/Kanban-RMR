@@ -1,0 +1,78 @@
+﻿@model List<IdentityRole>
+<style>
+    main.pb-3 {
+        border: 1px solid #dee2e6;
+        border-radius: 15px;
+        padding: 5px;
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: column;
+        gap: 5px;
+        margin-bottom: 16%;
+    }
+
+    input {
+        all: unset;
+        width: 100%;
+        padding: 3px 10px 5px 10px;
+        border-radius: 15px;
+        box-sizing: border-box;
+        border: 1px solid gray;
+    }
+
+    table.table {
+        width: 100%;
+        margin-bottom: unset;
+    }
+
+    main > div {
+        border: 1px solid gray;
+        border-radius: 15px;
+    }
+
+    .table > :not(caption) > * > * {
+        border-bottom: unset;
+    }
+
+    tbody tr {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    tbody tr:last-of-type {
+        border-bottom: unset;
+    }
+
+    tbody td:not(:first-of-type), thead th:not(:first-of-type) {
+        padding-left: 3%;
+        width: 200px;
+    }
+</style>
+
+<h1>Role Management</h1>
+
+@if (User.IsInRole("admin"))
+{
+    @Html.ActionLink("Add a Role", "Create", null, new { @class = "btn btn-primary" })
+}
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Role Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>
+                        <a asp-controller="Role" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-controller="Role" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

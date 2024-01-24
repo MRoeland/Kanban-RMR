@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace KanbanRMR.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDBSetup : Migration
+    public partial class initialDBSetup : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -25,6 +25,101 @@ namespace KanbanRMR.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Customer",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customer", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Priority",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Deleted = table.Column<bool>(type: "bit", nullable: false),
+                    Color = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Priority", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reward",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Action = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Points = table.Column<int>(type: "int", nullable: false),
+                    Enabled = table.Column<bool>(type: "bit", nullable: false),
+                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reward", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Status",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Status", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TicketType",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetRoleClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,40 +150,16 @@ namespace KanbanRMR.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Customer_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customer",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Priorities",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false),
-                    Color = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Priorities", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Projects",
+                name: "Project",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -100,72 +171,13 @@ namespace KanbanRMR.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Projects", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Rewards",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Action = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Points = table.Column<int>(type: "int", nullable: false),
-                    Enabled = table.Column<bool>(type: "bit", nullable: false),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Rewards", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Statuses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Statuses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TicketTypes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TicketTypes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetRoleClaims",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.PrimaryKey("PK_Project", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
+                        name: "FK_Project_Customer_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customer",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -254,7 +266,7 @@ namespace KanbanRMR.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tickets",
+                name: "Ticket",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -275,43 +287,43 @@ namespace KanbanRMR.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tickets", x => x.Id);
+                    table.PrimaryKey("PK_Ticket", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tickets_AspNetUsers_CreatedBy",
+                        name: "FK_Ticket_AspNetUsers_CreatedBy",
                         column: x => x.CreatedBy,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Tickets_Customers_CustomerId",
+                        name: "FK_Ticket_Customer_CustomerId",
                         column: x => x.CustomerId,
-                        principalTable: "Customers",
+                        principalTable: "Customer",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Tickets_Priorities_PriorityId",
+                        name: "FK_Ticket_Priority_PriorityId",
                         column: x => x.PriorityId,
-                        principalTable: "Priorities",
+                        principalTable: "Priority",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Tickets_Projects_ProjectId",
+                        name: "FK_Ticket_Project_ProjectId",
                         column: x => x.ProjectId,
-                        principalTable: "Projects",
+                        principalTable: "Project",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Tickets_Statuses_StatusId",
+                        name: "FK_Ticket_Status_StatusId",
                         column: x => x.StatusId,
-                        principalTable: "Statuses",
+                        principalTable: "Status",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Tickets_TicketTypes_TypeId",
+                        name: "FK_Ticket_TicketType_TypeId",
                         column: x => x.TypeId,
-                        principalTable: "TicketTypes",
+                        principalTable: "TicketType",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -322,18 +334,27 @@ namespace KanbanRMR.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TicketId = table.Column<int>(type: "int", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Likes = table.Column<int>(type: "int", nullable: false),
+                    Dislikes = table.Column<int>(type: "int", nullable: false),
                     Deleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comment_Tickets_TicketId",
-                        column: x => x.TicketId,
-                        principalTable: "Tickets",
+                        name: "FK_Comment_AspNetUsers_CreatedBy",
+                        column: x => x.CreatedBy,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Comment_Ticket_TicketId",
+                        column: x => x.TicketId,
+                        principalTable: "Ticket",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -341,23 +362,13 @@ namespace KanbanRMR.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "a576e28e-d1a7-4ddb-84b9-e0843ad98922", null, "user", "user" },
-                    { "bbc0a426-0973-4f3f-9b85-04ce5de3f0ca", null, "admin", "admin" }
+                    { "07cd1428-b34e-45cc-8501-874e1d10255c", null, "employee", "employee" },
+                    { "082665b9-de26-40b0-a88b-cb46564edbf6", null, "user", "user" },
+                    { "cc5edb92-cf28-4862-a4f1-1a39f1b27761", null, "admin", "admin" }
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CustomerId", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "Penalties", "PhoneNumber", "PhoneNumberConfirmed", "Points", "SecurityStamp", "TwoFactorEnabled", "UserName", "deleted" },
-                values: new object[,]
-                {
-                    { "01d5f1e3-8791-4924-bb2c-a4153383492c", 0, "0bb55c3f-6fbc-4853-bd4b-547dc8f683ac", 1, "admin@testemail.com", true, false, null, "admin", "admin@testemail.com", "admin", "AQAAAAIAAYagAAAAEEoP0z7nxxe4wG7GqKB45SOH06TtabCDkNcFePuT4bcPNnssbvf4RGWJFPoCPMGRrA==", 0, null, true, 0, "0858bb38-8c97-4b1e-b650-f46e64727e6c", false, "admin", false },
-                    { "21f98a97-5fa3-476a-a783-6d5802491050", 0, "84b464be-e795-4140-8708-6bc66b8696a9", 1, "empl2@testemail.com", true, false, null, "empl2", "empl2@testemail.com", "empl2", "AQAAAAIAAYagAAAAEJxOUuC8T2BdOO+IljsP+lPcklUIdQlrhPxAvKrvq0zNB82La4fh9EMoB+lD1iaLyA==", 0, null, false, 0, "dbcc3ca5-b64b-4753-8c28-bf5d107fba31", false, "empl2", false },
-                    { "35f4a031-3b7a-46d8-b13d-34ab024d5a0c", 0, "5e921558-6dcb-4d13-927d-718d6afee4c5", 2, "garvis1@testemail.com", true, false, null, "garvis1", "garvis1@testemail.com", "garvis1", "AQAAAAIAAYagAAAAEOfg6WjspbC5JQrUFDzYeOg+9sDhWGb+tfMsI7UNjsSbphM7h0guJ2yUZTVAxkabLw==", 0, null, false, 0, "b6e8ac3e-035d-4f22-80c9-04746e879440", false, "garvis1", false },
-                    { "a275286d-59d2-4060-b047-c1a1d7ccd460", 0, "222e2f66-426f-40b9-be59-3e06f2ab6822", 1, "empl1@testemail.com", true, false, null, "empl1", "empl1@testemail.com", "empl1", "AQAAAAIAAYagAAAAEIRot0fkf1QDnM+Gfzu3io5/WYDzQ5sbaGXqd3yQs1s/zMrQ53f4542gPJhXyyXvSw==", 0, null, false, 0, "a05b2bb5-9187-4101-9f14-bbeb9f9c27f3", false, "empl1", false }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Customers",
+                table: "Customer",
                 columns: new[] { "Id", "Deleted", "Description", "Name" },
                 values: new object[,]
                 {
@@ -366,7 +377,7 @@ namespace KanbanRMR.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Priorities",
+                table: "Priority",
                 columns: new[] { "Id", "Color", "Deleted", "Description" },
                 values: new object[,]
                 {
@@ -377,28 +388,21 @@ namespace KanbanRMR.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Projects",
-                columns: new[] { "Id", "CustomerId", "Deleted", "Description", "Name" },
-                values: new object[,]
-                {
-                    { 1, 1, false, null, "InternProject1" },
-                    { 2, 1, false, null, "InternProject2" },
-                    { 3, 2, false, null, "Project1" },
-                    { 4, 2, false, null, "Project2" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Rewards",
+                table: "Reward",
                 columns: new[] { "Id", "Action", "Deleted", "Enabled", "Points" },
                 values: new object[,]
                 {
                     { 1, "CreatedTicket", false, true, 1 },
                     { 2, "CreatedDuplicateTicket", false, true, -1 },
-                    { 3, "MoveToDone", false, true, 1 }
+                    { 3, "MoveToDone", false, true, 1 },
+                    { 4, "AddedComment", false, true, 1 },
+                    { 5, "RemovedComment", false, true, -1 },
+                    { 6, "LikedComment", false, true, 1 },
+                    { 7, "DislikedComment", false, true, -1 }
                 });
 
             migrationBuilder.InsertData(
-                table: "Statuses",
+                table: "Status",
                 columns: new[] { "Id", "Deleted", "Description" },
                 values: new object[,]
                 {
@@ -410,7 +414,7 @@ namespace KanbanRMR.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "TicketTypes",
+                table: "TicketType",
                 columns: new[] { "Id", "Deleted", "Description" },
                 values: new object[,]
                 {
@@ -420,27 +424,52 @@ namespace KanbanRMR.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CustomerId", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "Penalties", "PhoneNumber", "PhoneNumberConfirmed", "Points", "SecurityStamp", "TwoFactorEnabled", "UserName", "deleted" },
+                values: new object[,]
+                {
+                    { "b79d6b4c-8ff6-42c6-ad76-38247bfc447b", 0, "fcfb0597-0e86-4a09-810f-cf566cce8052", 1, "empl1@testemail.com", true, false, null, "empl1", "empl1@testemail.com", "empl1", "AQAAAAIAAYagAAAAEHMbDAZNVEw9GfzycLyw7xrQAw1i00ktK7dMuSfJ4Tza6TZI40IZREFj9HFrhJqjOQ==", 0, null, false, 2, "488af5c2-2e50-4aad-abed-9161d2b520a9", false, "empl1", false },
+                    { "d19c9551-5000-48df-ad83-9e4ea8cba3e8", 0, "d59b72ab-cfeb-4c06-8f9e-3453253d0eb8", 1, "empl2@testemail.com", true, false, null, "empl2", "empl2@testemail.com", "empl2", "AQAAAAIAAYagAAAAEK2FE/q5KJOwNBvjSTSorQH9jorrgyuiLWmTIOeJGvMrlVcp/w85Q7qsI1gnN+WAOw==", 0, null, false, 1, "8a1df346-f03d-4397-bb32-f9c0a52a439a", false, "empl2", false },
+                    { "daf93f3f-45dd-40dc-ae46-b17eebf520e5", 0, "96b95441-1512-41f0-807a-7473c5257261", 1, "admin@testemail.com", true, false, null, "admin", "admin@testemail.com", "admin", "AQAAAAIAAYagAAAAECKief5EM2rI7NPE+CYPsUtrGZiYRwRdh/cu+zuN0aTuwmZJRexFBCaNMm21bTcPww==", 0, null, true, 0, "b1b6ed8a-53c7-4ccd-9877-5002e6d7e026", false, "admin", false },
+                    { "eeb1bb63-6ee1-48d6-b025-7e1468dc59ca", 0, "1458936e-e39d-445c-b69e-70113937c81b", 2, "garvis1@testemail.com", true, false, null, "garvis1", "garvis1@testemail.com", "garvis1", "AQAAAAIAAYagAAAAEMMDZS6iqZH1oemHdOpLpGxo8k3XzI5mC/zaYf6AVwiOiLN20uXCXzT/uk4dhfQfNw==", 0, null, false, 1, "58f0e328-27c6-4085-bea1-bc537907f04c", false, "garvis1", false },
+                    { "fb16d5f6-af58-45c5-836e-282359f8b193", 0, "2dcbc9d3-622b-45fc-8ee0-e4c22ab569ce", 1, "empl3@testemail.com", true, false, null, "empl3", "empl3testemail.com", "empl3", "AQAAAAIAAYagAAAAELRDpoFU8jP2WG43OK5w50U2SKQSMDshesi/KVbGYVVLBFe997PVx6YjlGV9hS5gkw==", 0, null, false, 0, "6ce011ac-e9d5-453c-8d58-c9aa0ed03208", false, "empl3", false }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Project",
+                columns: new[] { "Id", "CustomerId", "Deleted", "Description", "Name" },
+                values: new object[,]
+                {
+                    { 1, 1, false, null, "InternProject1" },
+                    { 2, 1, false, null, "InternProject2" },
+                    { 3, 2, false, null, "Project1" },
+                    { 4, 2, false, null, "Project2" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "bbc0a426-0973-4f3f-9b85-04ce5de3f0ca", "01d5f1e3-8791-4924-bb2c-a4153383492c" },
-                    { "bbc0a426-0973-4f3f-9b85-04ce5de3f0ca", "21f98a97-5fa3-476a-a783-6d5802491050" },
-                    { "a576e28e-d1a7-4ddb-84b9-e0843ad98922", "35f4a031-3b7a-46d8-b13d-34ab024d5a0c" },
-                    { "bbc0a426-0973-4f3f-9b85-04ce5de3f0ca", "a275286d-59d2-4060-b047-c1a1d7ccd460" }
+                    { "07cd1428-b34e-45cc-8501-874e1d10255c", "b79d6b4c-8ff6-42c6-ad76-38247bfc447b" },
+                    { "cc5edb92-cf28-4862-a4f1-1a39f1b27761", "b79d6b4c-8ff6-42c6-ad76-38247bfc447b" },
+                    { "07cd1428-b34e-45cc-8501-874e1d10255c", "d19c9551-5000-48df-ad83-9e4ea8cba3e8" },
+                    { "cc5edb92-cf28-4862-a4f1-1a39f1b27761", "daf93f3f-45dd-40dc-ae46-b17eebf520e5" },
+                    { "082665b9-de26-40b0-a88b-cb46564edbf6", "eeb1bb63-6ee1-48d6-b025-7e1468dc59ca" },
+                    { "07cd1428-b34e-45cc-8501-874e1d10255c", "fb16d5f6-af58-45c5-836e-282359f8b193" }
                 });
 
             migrationBuilder.InsertData(
-                table: "Tickets",
+                table: "Ticket",
                 columns: new[] { "Id", "CreatedBy", "CreatedOn", "CustomerId", "Deleted", "Description", "Effort", "Index", "PriorityId", "ProjectId", "StartDate", "StatusId", "Title", "TypeId" },
                 values: new object[,]
                 {
-                    { 1, "a275286d-59d2-4060-b047-c1a1d7ccd460", new DateTime(2023, 12, 18, 21, 11, 55, 688, DateTimeKind.Local).AddTicks(6932), 1, false, "internal ticket1", null, 1, 1, 1, null, 1, "IntTicket1", 3 },
-                    { 2, "a275286d-59d2-4060-b047-c1a1d7ccd460", new DateTime(2023, 12, 18, 21, 11, 55, 688, DateTimeKind.Local).AddTicks(7021), 1, false, "internal ticket2", null, 2, 2, 1, null, 1, "IntTicket2", 2 },
-                    { 3, "21f98a97-5fa3-476a-a783-6d5802491050", new DateTime(2023, 12, 18, 21, 11, 55, 688, DateTimeKind.Local).AddTicks(7030), 1, false, "internal ticket3", null, 3, 3, 2, null, 1, "IntTicket3", 1 },
-                    { 4, "35f4a031-3b7a-46d8-b13d-34ab024d5a0c", new DateTime(2023, 12, 18, 21, 11, 55, 688, DateTimeKind.Local).AddTicks(7037), 2, false, "Ticket Description1", null, 1, 1, 3, null, 1, "Ticket1", 2 },
-                    { 5, "35f4a031-3b7a-46d8-b13d-34ab024d5a0c", new DateTime(2023, 12, 18, 21, 11, 55, 688, DateTimeKind.Local).AddTicks(7044), 2, false, "Ticket Description2", null, 2, 4, 3, null, 1, "Ticket2", 1 },
-                    { 6, "35f4a031-3b7a-46d8-b13d-34ab024d5a0c", new DateTime(2023, 12, 18, 21, 11, 55, 688, DateTimeKind.Local).AddTicks(7051), 2, false, "Ticket Description3", null, 3, 2, 4, null, 1, "Ticket3", 1 }
+                    { 1, "b79d6b4c-8ff6-42c6-ad76-38247bfc447b", new DateTime(2024, 1, 24, 20, 38, 8, 621, DateTimeKind.Local).AddTicks(9093), 1, false, "internal ticket1", null, 1, 1, 1, null, 1, "IntTicket1", 3 },
+                    { 2, "b79d6b4c-8ff6-42c6-ad76-38247bfc447b", new DateTime(2024, 1, 24, 20, 38, 8, 621, DateTimeKind.Local).AddTicks(9234), 1, false, "internal ticket2", null, 2, 2, 1, null, 1, "IntTicket2", 2 },
+                    { 3, "d19c9551-5000-48df-ad83-9e4ea8cba3e8", new DateTime(2024, 1, 24, 20, 38, 8, 621, DateTimeKind.Local).AddTicks(9240), 1, false, "internal ticket3", null, 3, 3, 2, null, 1, "IntTicket3", 1 },
+                    { 4, "eeb1bb63-6ee1-48d6-b025-7e1468dc59ca", new DateTime(2024, 1, 24, 20, 38, 8, 621, DateTimeKind.Local).AddTicks(9247), 2, false, "Ticket Description1", null, 1, 1, 3, null, 1, "Ticket1", 2 },
+                    { 5, "eeb1bb63-6ee1-48d6-b025-7e1468dc59ca", new DateTime(2024, 1, 24, 20, 38, 8, 621, DateTimeKind.Local).AddTicks(9253), 2, false, "Ticket Description2", null, 2, 4, 3, null, 1, "Ticket2", 1 },
+                    { 6, "eeb1bb63-6ee1-48d6-b025-7e1468dc59ca", new DateTime(2024, 1, 24, 20, 38, 8, 621, DateTimeKind.Local).AddTicks(9257), 2, false, "Ticket Description3", null, 3, 2, 4, null, 1, "Ticket3", 1 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -476,6 +505,11 @@ namespace KanbanRMR.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_CustomerId",
+                table: "AspNetUsers",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -483,38 +517,48 @@ namespace KanbanRMR.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comment_CreatedBy",
+                table: "Comment",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comment_TicketId",
                 table: "Comment",
                 column: "TicketId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tickets_CreatedBy",
-                table: "Tickets",
-                column: "CreatedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tickets_CustomerId",
-                table: "Tickets",
+                name: "IX_Project_CustomerId",
+                table: "Project",
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tickets_PriorityId",
-                table: "Tickets",
+                name: "IX_Ticket_CreatedBy",
+                table: "Ticket",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ticket_CustomerId",
+                table: "Ticket",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ticket_PriorityId",
+                table: "Ticket",
                 column: "PriorityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tickets_ProjectId",
-                table: "Tickets",
+                name: "IX_Ticket_ProjectId",
+                table: "Ticket",
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tickets_StatusId",
-                table: "Tickets",
+                name: "IX_Ticket_StatusId",
+                table: "Ticket",
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tickets_TypeId",
-                table: "Tickets",
+                name: "IX_Ticket_TypeId",
+                table: "Ticket",
                 column: "TypeId");
         }
 
@@ -540,31 +584,31 @@ namespace KanbanRMR.Migrations
                 name: "Comment");
 
             migrationBuilder.DropTable(
-                name: "Rewards");
+                name: "Reward");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Tickets");
+                name: "Ticket");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Customers");
+                name: "Priority");
 
             migrationBuilder.DropTable(
-                name: "Priorities");
+                name: "Project");
 
             migrationBuilder.DropTable(
-                name: "Projects");
+                name: "Status");
 
             migrationBuilder.DropTable(
-                name: "Statuses");
+                name: "TicketType");
 
             migrationBuilder.DropTable(
-                name: "TicketTypes");
+                name: "Customer");
         }
     }
 }
